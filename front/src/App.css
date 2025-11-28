@@ -163,7 +163,7 @@ main{
     align-items: center;
 }
 
-.navbar-links a {
+.user-email, .navbar-link-fake, .navbar-links a {
     text-decoration: none !important;
     font-size: 1.3rem !important;
     font-weight: 500;
@@ -175,8 +175,10 @@ main{
 }
 
 /* Hover */
+.user-email:hover, 
+.navbar-link-fake:hover, 
 .navbar-links a:hover {
-    background: #e8f4ff;
+    /* background: #e8f4ff; */
     color: #0077c2;
 }
 
@@ -272,6 +274,25 @@ main{
 
 
 /* VACUNAS DETALLE */
+.btn-detalle {
+  display: inline-block;
+  background: #06385f;     /* azul Mistomed */
+  color: #fff !important;
+  padding: 8px 22px;
+  border-radius: 8px;
+  text-decoration: none !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+  text-align: center;
+  margin: auto;
+}
+
+.btn-detalle:hover {
+  background: #0a4d84;
+  color: #fff;
+}
+
 
 /* CONTENEDOR GENERAL */
 .detalle-container {
@@ -411,7 +432,7 @@ main{
 .vacuna-item {
   background: #f8f8f8;
   padding: 18px;
-  margin-bottom: 15px;
+  margin-bottom: 2em;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.08);
   transition: transform 0.2s;
@@ -466,6 +487,40 @@ main{
   font-size: 1.1rem;
   margin-top: 20px;
   color: #666;
+}
+
+/* Contenedor de filtros */
+.vacunas-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+/* Botones de filtro */
+.btn-filtro {
+  background: #ffffff;
+  border: 1px solid #0a3d62;
+  color: #0a3d62;
+  padding: 6px 14px;
+  border-radius: 999px; /* forma de píldora */
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* Hover */
+.btn-filtro:hover {
+  background: #e8f4ff;
+}
+
+/* Estado activo (filtro seleccionado) */
+.btn-filtro.activo {
+  background: #0a3d62;
+  color: #ffffff;
+  border-color: #0a3d62;
 }
 
 
@@ -571,7 +626,6 @@ main{
 .boton {
   text-align: center;
   text-decoration: none;
-  display: inline-block;
 }
 
 /* REGISTER */

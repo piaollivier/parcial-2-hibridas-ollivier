@@ -6,53 +6,49 @@ export default function Nav() {
   const logout = useLogout();
 
   return (
-    <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#06385f" }}>
-      <div className="container d-flex justify-content-between align-items-center">
+    <nav className="navbar">
+      <div className="navbar-container">
 
-        {/* LOGO */}
+        {/* LOGO / BRAND */}
         <div className="navbar-logo">
           <Link to="/">Mistomed</Link>
         </div>
 
-        {/* MOBILE BTN */}
-        <button
-          className="navbar-toggler border-light"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navContent"
-        >
-          <span className="navbar-toggler-icon" style={{ filter: "invert(1)" }}></span>
-        </button>
-
         {/* LINKS */}
-        <div className="collapse navbar-collapse justify-content-end" id="navContent">
-          <div className="navbar-links">
-            {!userApp ? (
-              <>
-                <Link to="/">Home</Link>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Registrate</Link>
-              </>
-            ) : (
-              <>
-                <span className="text-white fw-semibold me-3">
-                  {userApp.email}
-                </span>
+        <div className="navbar-links">
 
-                <Link to="/vacunas" className="me-2">Vacunas</Link>
-                <Link to="/mis-vacunas" className="me-2">Mis Vacunas</Link>
+          {/* 👉 HOME aparece siempre */}
+          <Link to="/">Home</Link>
 
-                <button
-                  onClick={logout}
-                  className="btn btn-sm btn-light ms-2"
-                >
-                  Logout
-                </button>
-              </>
-            )}
-          </div>
+          {!userApp ? (
+            <>
+              <Link to="/login" className="login-btn">
+                Login
+              </Link>
+              <Link to="/register" className="login-btn">
+                Registrate
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/mi-perfil" className="user-email">
+                {userApp.email}
+              </Link>
+
+              <Link to="/vacunas">Vacunas</Link>
+              <Link to="/mis-vacunas">Mis Vacunas</Link>
+
+              <span
+                onClick={logout}
+                className="navbar-link-fake"
+                style={{ cursor: "pointer" }}
+              >
+                Logout
+              </span>
+            </>
+          )}
         </div>
       </div>
-    </nav>
-  );
+    </nav>
+  );
 }

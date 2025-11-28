@@ -16,6 +16,7 @@ import MisVacunas from "./pages/MisVacunas.jsx"
 import MisVacunasCrear from "./pages/MisVacunasCrear.jsx"
 import MisVacunasEditar from "./pages/MisVacunasEditar.jsx"
 import Register from "./pages/Register.jsx"
+import MiPerfil from "./pages/MiPerfil.jsx"
 
 const router = createBrowserRouter([
   {
@@ -42,14 +43,21 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />
       },
-      { path: "/mis-vacunas", 
+      { 
+        path: "/mis-vacunas", 
         element: <MisVacunas /> 
       },       
-      { path: "/mis-vacunas/nueva", 
+      { 
+        path: "/mis-vacunas/nueva", 
         element: <MisVacunasCrear /> 
       },
-      { path: "/mis-vacunas/editar/:id", 
+      { 
+        path: "/mis-vacunas/editar/:id", 
         element: <MisVacunasEditar /> 
+      },
+      { 
+        path: "/mi-perfil", 
+        element: <MiPerfil /> 
       },
     ],
   },

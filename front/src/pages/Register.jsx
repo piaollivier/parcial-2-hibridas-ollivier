@@ -34,6 +34,8 @@ const Register = () => {
       password: form.password,
     };
 
+    setError("");
+
     fetch("http://localhost:3333/api/userApp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,87 +46,100 @@ const Register = () => {
         return res.json();
       })
       .then(() => navigate("/login"))
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message || "Error al registrar usuario"));
   };
 
   return (
-    <main className="container mt-5" style={{ maxWidth: "500px" }}>
-      
-      <h2 className="text-center mb-4" style={{ color: "#06385f" }}>
-        Crear cuenta
-      </h2>
+    <main className="mis-vacunas-crear">
+      <div className="card-auth" style={{ maxWidth: "480px" }}>
+        <h1 className="card-auth__title">Crear cuenta</h1>
 
-      {error && (
-        <div className="alert alert-danger text-center py-2">{error}</div>
-      )}
+        {error && (
+          <p
+            style={{
+              backgroundColor: "#fde2e2",
+              color: "#b3261e",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              fontSize: "0.9rem",
+              marginBottom: "16px",
+              textAlign: "center",
+            }}
+          >
+            {error}
+          </p>
+        )}
 
-      <form onSubmit={handleSubmit} className="border p-4 rounded shadow-sm">
+        <form onSubmit={handleSubmit} className="form-vacuna">
+          <label>
+            Nombre de usuario
+            <input
+              type="text"
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              required
+              placeholder="Ingresar nombre de usuario"
+            />
+          </label>
 
-        <div className="mb-3">
-          <label className="form-label">Nombre de usuario</label>
-          <input
-            type="text"
-            name="username"
-            className="form-control"
-            value={form.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <label>
+            Correo electrónico
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              placeholder="Ingresar correo electrónico"
+            />
+          </label>
 
-        <div className="mb-3">
-          <label className="form-label">Correo electrónico</label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <label>
+            Contraseña
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              placeholder="Ingresar contraseña"
+            />
+          </label>
 
-        <div className="mb-3">
-          <label className="form-label">Contraseña</label>
-          <input
-            type="password"
-            name="password"
-            className="form-control"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <label>
+            Confirmar contraseña
+            <input
+              type="password"
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+              placeholder="Repetir contraseña"
+            />
+          </label>
 
-        <div className="mb-3">
-          <label className="form-label">Confirmar contraseña</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            className="form-control"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <button type="submit" className="btn-primary-auth">
+            Registrarme
+          </button>
 
-        <button
-          type="submit"
-          className="btn w-100 text-white"
-          style={{ backgroundColor: "#06385f" }}
-        >
-          Registrarme
-        </button>
-
-        {/* 👇 MISMO ESTILO QUE LOGIN */}
-        <p className="text-center mt-3 mb-0">
-          ¿Ya tenés cuenta?{" "}
-          <Link to="/login" style={{ color: "#06385f", fontWeight: "bold" }}>
-            Iniciar sesión
-          </Link>
-        </p>
-
-      </form>
+          <p
+            style={{
+              marginTop: "12px",
+              fontSize: "0.9rem",
+              textAlign: "center",
+            }}
+          >
+            ¿Ya tenés cuenta?{" "}
+            <Link
+              to="/login"
+              style={{ color: "#06385f", fontWeight: "600", textDecoration: "none" }}
+            >
+              Iniciar sesión
+            </Link>
+          </p>
+        </form>
+      </div>
     </main>
   );
 };
