@@ -1,0 +1,703 @@
+#root {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  /* padding: 2rem; */
+  text-align: center;
+}
+body{
+  background-color: #f8f9fa;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* max-width: 1280px; */
+}
+
+main{
+  padding: 2rem 0;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.error_message{
+    background-color: #f78484;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+/* Título principal */
+.titulo-vacunas {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #0a3d62;
+}
+
+/* Tarjeta */
+.vacuna-card {
+    border-radius: 14px;
+    background-color: #e5e6eb;
+    transition: all 0.25s ease;
+    border: 1px solid #e3e9ef;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+
+.vacuna-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Botón personalizado */
+.btn-vacunas {
+    background: #0a3d62;
+    /* margin-top: 20px !important; */
+    color: white;
+    font-weight: 600;
+    padding: 10px 50px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+.btn-vacunas:hover {
+    background:  #0088e0;
+    color: white;
+    transform: scale(1.03);
+}
+
+/* Texto */
+.card-title {
+    font-weight: 600;
+    font-size: 2rem;
+    color: #0a3d62;
+}
+
+.text-vacunas {
+    color: #555;
+    font-size: 1rem;
+    margin: 3rem 0;
+    line-height: 1.5;
+}
+
+
+/* NAV  */
+
+/* NAVBAR OCUPA 100% SIEMPRE */
+.navbar {
+    width: 100%;
+    background: #0a3d62;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.navbar-container {
+    margin: 0 auto;    /* barra sigue 100% */
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
+/* === LOGO === */
+.navbar-logo a {
+    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff !important;
+    letter-spacing: 1px;
+}
+
+/* === LINKS === */
+
+
+.navbar-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.navbar-links a {
+    text-decoration: none !important;
+    font-size: 1.3rem !important;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: 0.25s all ease;
+}
+
+/* Hover */
+.navbar-links a:hover {
+    background: #e8f4ff;
+    color: #0077c2;
+}
+
+/* === BOTÓN LOGIN === */
+.login-btn {
+    background: #0a3d62;
+    color: white !important;
+    padding: 8px 48px !important;
+    border-radius: 10px;
+    /* transition: 0.25s ease; */
+    font-weight: 600;
+}
+
+.login-btn:hover {
+    /* transform: scale(1.05); */
+    background:  #0088e0 !important;
+}
+
+/* LOGIN  */
+
+/* === PÁGINA LOGIN (centra en pantalla) === */
+.login-page {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 20px; */
+}
+
+/* === TARJETA LOGIN === */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 4rem;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+/* === TÍTULO === */
+.login-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0a3d62;
+    margin-bottom: 60px;
+    margin-top: 0 !important;
+}
+
+/* === FORM === */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* === INPUTS === */
+.login-form input {
+    padding: 12px 14px;
+    border: 1px solid #cfd8e3;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    align-items: center;
+}
+
+.login-form input:focus {
+    border-color: #0077c2;
+    box-shadow: 0 0 6px rgba(0,118,194,0.3);
+    outline: none;
+}
+
+/* === BOTÓN LOGIN === */
+.login-btn-form {
+    /* width: 100%; */
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    background: #0a3d62;
+    margin-top: 60px;
+    /* transition: transform 0.25s ease, background 0.25s ease; */
+}
+
+.login-btn:hover {
+    /* transform: scale(1.05); */
+    background:  #0088e0;
+}
+
+
+/* VACUNAS DETALLE */
+
+/* CONTENEDOR GENERAL */
+.detalle-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* BOTÓN VOLVER ARRIBA DERECHA */
+.volver-wrapper {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.volver-btn {
+    background: #073B63;
+    color: #fff;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.volver-btn:hover {
+    background: #0A527F;
+    transform: scale(1.05);
+}
+
+/* GRID 2 COLUMNAS */
+.detalle-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: #f5f6fa;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border: 1px solid #cfd8e3;
+}
+
+/* COLUMNA IZQUIERDA */
+.detalle-img-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detalle-img {
+    width: 100%;
+    max-width: 380px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* COLUMNA DERECHA */
+.detalle-info-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+}
+
+.detalle-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #073B63;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.detalle-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: left;
+    line-height: 1.6;
+}
+
+/* BOTÓN INFO OFICIAL */
+.detalle-btn {
+    margin-top: 20px;
+    background: #073B63;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    width: fit-content;
+    transition: 0.25s;
+}
+
+.detalle-btn:hover {
+    background: #0A527F;
+    transform: scale(1.05);
+}
+
+/** mis vacunas **/
+
+/* CONTENEDOR GENERAL */
+.mis-vacunas-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.mis-vacunas-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* BOTÓN CREAR */
+.btn-crear {
+  background-color: #0acbb2;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-crear:hover {
+  background-color: #089e8c;
+}
+
+/* LISTA DE VACUNAS */
+.lista-vacunas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vacuna-item {
+  background: #f8f8f8;
+  padding: 18px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.vacuna-item:hover {
+  transform: translateY(-2px);
+}
+
+.vacuna-item h3 {
+  margin: 0 0 10px 0;
+  color: #222;
+}
+
+/* BOTONES DE CADA ITEM */
+.btns {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-borrar {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-borrar:hover {
+  background-color: #c43133;
+}
+
+.btn-editar {
+  background-color: #ffa726;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.btn-editar:hover {
+  background-color: #e38d16;
+}
+
+/* TEXTO CUANDO NO HAY VACUNAS */
+.mis-vacunas-container p {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 20px;
+  color: #666;
+}
+
+
+/* crear vacunas */
+
+/* Fondo centrado tipo pantalla de login */
+.mis-vacunas-crear {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f7fa;
+  padding: 20px;
+}
+
+/* Card blanca como la del login */
+.card-auth {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 48px;
+  box-shadow: 0 24px 60px rgba(15, 41, 80, 0.08);
+}
+
+/* Título centrado igual que "Iniciar sesión" */
+.card-auth__title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f3758; /* azul oscuro similar al botón */
+  margin-bottom: 28px;
+}
+
+/* Layout del form: columnas y separación */
+.form-vacuna {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Label sobrio, pequeño */
+.form-vacuna label {
+  font-size: 1rem;
+  color: #2b3c4f;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+/* Inputs tipo los del login */
+.form-vacuna input:not([type="checkbox"]) {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d7dde8;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.form-vacuna input:not([type="checkbox"])::placeholder {
+  color: #a5afc0;
+}
+
+/* Focus parecido al login */
+.form-vacuna input:not([type="checkbox"]):focus {
+  border-color: #0f3758;
+  box-shadow: 0 0 0 2px rgba(15, 55, 88, 0.12);
+}
+
+/* Checkbox alineado a la izquierda, como en la captura */
+.form-vacuna__checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Botón igual que el Login */
+.boton,  .btn-primary-auth {
+  margin-top: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0f3758;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.btn-primary-auth:hover {
+  background-color: #0b2940;
+}
+
+.btn-primary-auth:active {
+  transform: translateY(1px);
+}
+
+.boton {
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* REGISTER */
+
+/* FONDO GENERAL DE PÁGINAS DE AUTH */
+.auth-wrapper {
+  min-height: calc(100vh - 60px); /* resto del alto del navbar */
+  background-color: #f5f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 15px;
+}
+
+/* TARJETA CENTRAL */
+.auth-card {
+  background-color: #ffffff;
+  max-width: 650px;
+  width: 100%;
+  padding: 50px 60px;
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* TÍTULO */
+.auth-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #06385f;
+  margin-bottom: 40px;
+}
+
+/* FORMULARIO */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* INPUTS */
+.auth-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #d7dce5;
+  padding: 14px 16px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-input::placeholder {
+  color: #9ba3b4;
+}
+
+.auth-input:focus {
+  border-color: #06385f;
+  box-shadow: 0 0 0 3px rgba(6, 56, 95, 0.12);
+}
+
+/* BOTÓN PRINCIPAL */
+.auth-button {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  background-color: #06385f;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.05s;
+}
+
+.auth-button:hover {
+  background-color: #042a46;
+}
+
+.auth-button:active {
+  transform: translateY(1px);
+}
+
+/* TEXTO DE CAMBIO DE VISTA (LOGIN/REGISTER) */
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.auth-link {
+  color: #06385f;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* MENSAJE DE ERROR */
+.auth-error {
+  text-align: center;
+  color: #d93030;
+  background: #fdecec;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .detalle-card-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .volver-wrapper {
+        text-align: left;
+    }
+
+    .detalle-info-col {
+        align-items: center;
+    }
+}
