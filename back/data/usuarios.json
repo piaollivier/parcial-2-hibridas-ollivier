@@ -1,0 +1,450 @@
+[
+    {
+        "id": 1,
+        "nombre": "Juan",
+        "apellido": "Pérez",
+        "fechaNacimiento": "2018-03-15",
+        "sexo": "M",
+        "alergias": [
+            "Penicilina"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Ana Pérez",
+            "telefono": "1123456789"
+        },
+        "direccion": "Calle Falsa 123, Ciudad"
+    },
+    {
+        "id": 2,
+        "nombre": "María",
+        "apellido": "Gómez",
+        "fechaNacimiento": "2016-07-10",
+        "sexo": "F",
+        "alergias": [],
+        "contactoEmergencia": {
+            "nombre": "Carlos Gómez",
+            "telefono": "1198765432"
+        },
+        "direccion": "Avenida Siempre Viva 742, Ciudad"
+    },
+    {
+        "id": 3,
+        "nombre": "Sofía",
+        "apellido": "Ramírez",
+        "fechaNacimiento": "2019-12-05",
+        "sexo": "F",
+        "alergias": [
+            "Polen"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Luis Ramírez",
+            "telefono": "1145678901"
+        },
+        "direccion": "Calle Libertad 55, Ciudad"
+    },
+    {
+        "id": 4,
+        "nombre": "Matías",
+        "apellido": "Fernández",
+        "fechaNacimiento": "2015-05-20",
+        "sexo": "M",
+        "alergias": [
+            "Ninguna"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Lucía Fernández",
+            "telefono": "1132456789"
+        },
+        "direccion": "Calle del Sol 200, Ciudad"
+    },
+    {
+        "id": 5,
+        "nombre": "Valentina",
+        "apellido": "López",
+        "fechaNacimiento": "2017-11-01",
+        "sexo": "F",
+        "alergias": [
+            "Frutos secos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Diego López",
+            "telefono": "1176543210"
+        },
+        "direccion": "Boulevard Central 45, Ciudad"
+    },
+    {
+        "id": 6,
+        "nombre": "Diego",
+        "apellido": "Martínez",
+        "fechaNacimiento": "2014-02-18",
+        "sexo": "M",
+        "alergias": [
+            "Lácteos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Ana Martínez",
+            "telefono": "1165432109"
+        },
+        "direccion": "Calle Jardín 12, Ciudad"
+    },
+    {
+        "id": 7,
+        "nombre": "Camila",
+        "apellido": "García",
+        "fechaNacimiento": "2016-09-12",
+        "sexo": "F",
+        "alergias": [
+            "Ninguna"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Jorge García",
+            "telefono": "1134567890"
+        },
+        "direccion": "Calle Luna 34, Ciudad"
+    },
+    {
+        "id": 8,
+        "nombre": "Lucas",
+        "apellido": "Rodríguez",
+        "fechaNacimiento": "2013-06-23",
+        "sexo": "M",
+        "alergias": [
+            "Aspirina"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Marta Rodríguez",
+            "telefono": "1156789012"
+        },
+        "direccion": "Avenida Río 90, Ciudad"
+    },
+    {
+        "id": 9,
+        "nombre": "Martina",
+        "apellido": "Sánchez",
+        "fechaNacimiento": "2019-01-08",
+        "sexo": "F",
+        "alergias": [
+            "Mariscos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Raúl Sánchez",
+            "telefono": "1123456790"
+        },
+        "direccion": "Calle Estrella 7, Ciudad"
+    },
+    {
+        "id": 10,
+        "nombre": "Agustín",
+        "apellido": "Torres",
+        "fechaNacimiento": "2015-10-30",
+        "sexo": "M",
+        "alergias": [
+            "Gluten"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Laura Torres",
+            "telefono": "1178901234"
+        },
+        "direccion": "Calle Sol 33, Ciudad"
+    },
+    {
+        "id": 11,
+        "nombre": "Lucía",
+        "apellido": "Vega",
+        "fechaNacimiento": "2017-04-17",
+        "sexo": "F",
+        "alergias": [
+            "Polen"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Mario Vega",
+            "telefono": "1145678923"
+        },
+        "direccion": "Avenida Norte 12, Ciudad"
+    },
+    {
+        "id": 12,
+        "nombre": "Tomás",
+        "apellido": "Morales",
+        "fechaNacimiento": "2014-08-02",
+        "sexo": "M",
+        "alergias": [
+            "Lácteos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Sofía Morales",
+            "telefono": "1134567891"
+        },
+        "direccion": "Calle Sur 56, Ciudad"
+    },
+    {
+        "id": 13,
+        "nombre": "Isabella",
+        "apellido": "Rojas",
+        "fechaNacimiento": "2018-12-15",
+        "sexo": "F",
+        "alergias": [
+            "Ninguna"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Pablo Rojas",
+            "telefono": "1167890123"
+        },
+        "direccion": "Boulevard Este 78, Ciudad"
+    },
+    {
+        "id": 14,
+        "nombre": "Benjamín",
+        "apellido": "Castro",
+        "fechaNacimiento": "2016-03-22",
+        "sexo": "M",
+        "alergias": [
+            "Aspirina"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Mariana Castro",
+            "telefono": "1176543290"
+        },
+        "direccion": "Calle Oeste 90, Ciudad"
+    },
+    {
+        "id": 15,
+        "nombre": "Emma",
+        "apellido": "Alvarez",
+        "fechaNacimiento": "2015-07-09",
+        "sexo": "F",
+        "alergias": [
+            "Frutos secos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Andrés Alvarez",
+            "telefono": "1123456788"
+        },
+        "direccion": "Calle Central 100, Ciudad"
+    },
+    {
+        "id": 16,
+        "nombre": "Santiago",
+        "apellido": "Molina",
+        "fechaNacimiento": "2013-11-11",
+        "sexo": "M",
+        "alergias": [
+            "Gluten"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Claudia Molina",
+            "telefono": "1135678901"
+        },
+        "direccion": "Calle Jardín 22, Ciudad"
+    },
+    {
+        "id": 17,
+        "nombre": "Camila",
+        "apellido": "Ortiz",
+        "fechaNacimiento": "2019-06-20",
+        "sexo": "F",
+        "alergias": [
+            "Polen"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Ricardo Ortiz",
+            "telefono": "1145678902"
+        },
+        "direccion": "Avenida Río 11, Ciudad"
+    },
+    {
+        "id": 18,
+        "nombre": "Matías",
+        "apellido": "Vargas",
+        "fechaNacimiento": "2017-01-05",
+        "sexo": "M",
+        "alergias": [
+            "Lácteos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Verónica Vargas",
+            "telefono": "1156789013"
+        },
+        "direccion": "Calle Luna 44, Ciudad"
+    },
+    {
+        "id": 19,
+        "nombre": "Florencia",
+        "apellido": "Ríos",
+        "fechaNacimiento": "2016-09-18",
+        "sexo": "F",
+        "alergias": [
+            "Ninguna"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Hugo Ríos",
+            "telefono": "1167890124"
+        },
+        "direccion": "Calle Estrella 9, Ciudad"
+    },
+    {
+        "id": 20,
+        "nombre": "Agustín",
+        "apellido": "Herrera",
+        "fechaNacimiento": "2015-05-30",
+        "sexo": "M",
+        "alergias": [
+            "Mariscos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Patricia Herrera",
+            "telefono": "1178901235"
+        },
+        "direccion": "Avenida Norte 50, Ciudad"
+    },
+    {
+        "id": 21,
+        "nombre": "Juana",
+        "apellido": "Domínguez",
+        "fechaNacimiento": "2018-10-12",
+        "sexo": "F",
+        "alergias": [
+            "Frutos secos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Diego Domínguez",
+            "telefono": "1123456791"
+        },
+        "direccion": "Calle Sur 33, Ciudad"
+    },
+    {
+        "id": 22,
+        "nombre": "Leandro",
+        "apellido": "Figueroa",
+        "fechaNacimiento": "2014-03-08",
+        "sexo": "M",
+        "alergias": [
+            "Penicilina"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Clara Figueroa",
+            "telefono": "1134567892"
+        },
+        "direccion": "Boulevard Este 12, Ciudad"
+    },
+    {
+        "id": 23,
+        "nombre": "Valentina",
+        "apellido": "Sosa",
+        "fechaNacimiento": "2017-07-25",
+        "sexo": "F",
+        "alergias": [
+            "Gluten"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Raúl Sosa",
+            "telefono": "1145678903"
+        },
+        "direccion": "Calle Oeste 77, Ciudad"
+    },
+    {
+        "id": 24,
+        "nombre": "Nicolás",
+        "apellido": "Cabrera",
+        "fechaNacimiento": "2013-12-02",
+        "sexo": "M",
+        "alergias": [
+            "Lácteos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Sofía Cabrera",
+            "telefono": "1156789014"
+        },
+        "direccion": "Calle Central 88, Ciudad"
+    },
+    {
+        "id": 25,
+        "nombre": "Emma",
+        "apellido": "Méndez",
+        "fechaNacimiento": "2019-04-15",
+        "sexo": "F",
+        "alergias": [
+            "Polen"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Juan Méndez",
+            "telefono": "1167890125"
+        },
+        "direccion": "Avenida Sol 23, Ciudad"
+    },
+    {
+        "id": 26,
+        "nombre": "Benjamín",
+        "apellido": "Acosta",
+        "fechaNacimiento": "2016-06-30",
+        "sexo": "M",
+        "alergias": [
+            "Mariscos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Mariana Acosta",
+            "telefono": "1178901236"
+        },
+        "direccion": "Calle Luna 55, Ciudad"
+    },
+    {
+        "id": 27,
+        "nombre": "Isabella",
+        "apellido": "Cortez",
+        "fechaNacimiento": "2015-09-05",
+        "sexo": "F",
+        "alergias": [
+            "Frutos secos"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Andrés Cortez",
+            "telefono": "1123456792"
+        },
+        "direccion": "Calle Estrella 77, Ciudad"
+    },
+    {
+        "id": 28,
+        "nombre": "Santiago",
+        "apellido": "Ramos",
+        "fechaNacimiento": "2014-11-20",
+        "sexo": "M",
+        "alergias": [
+            "Gluten"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Claudia Ramos",
+            "telefono": "1134567893"
+        },
+        "direccion": "Boulevard Norte 14, Ciudad"
+    },
+    {
+        "id": 29,
+        "nombre": "Florencia",
+        "apellido": "Gil",
+        "fechaNacimiento": "2018-08-12",
+        "sexo": "F",
+        "alergias": [
+            "Polen"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Hugo Gil",
+            "telefono": "1145678904"
+        },
+        "direccion": "Calle Sur 66, Ciudad"
+    },
+    {
+        "id": 30,
+        "nombre": "Martín",
+        "apellido": "Herrera",
+        "fechaNacimiento": "2017-02-25",
+        "sexo": "M",
+        "alergias": [
+            "Ninguna"
+        ],
+        "contactoEmergencia": {
+            "nombre": "Patricia Herrera",
+            "telefono": "1156789015"
+        },
+        "direccion": "Avenida Este 88, Ciudad"
+    }
+]

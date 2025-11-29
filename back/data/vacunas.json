@@ -1,0 +1,239 @@
+[
+    {
+        "nombre": "BCG",
+        "previene": "Formas graves de tuberculosis",
+        "edad_aplicacion": [
+            "Recién nacido"
+        ],
+        "dosis": "Única",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus1.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/tuberculosis"
+    },
+    {
+        "nombre": "Hepatitis B",
+        "previene": "Hepatitis B",
+        "edad_aplicacion": [
+            "Recién nacido",
+            "2 meses",
+            "4 meses",
+            "6 meses"
+        ],
+        "dosis": "3 dosis + 1 al nacer",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus2.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/hepatitisb"
+    },
+    {
+        "nombre": "Pentavalente",
+        "previene": "Difteria, tétanos, tos convulsa, hepatitis B, Haemophilus influenzae tipo b",
+        "edad_aplicacion": [
+            "2 meses",
+            "4 meses",
+            "6 meses",
+            "18 meses (refuerzo)"
+        ],
+        "dosis": "3 dosis + 1 refuerzo",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus3.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/cuadruple-o-quintuple-pentavalente"
+    },
+    {
+        "nombre": "Poliomielitis",
+        "previene": "Poliomielitis",
+        "edad_aplicacion": [
+            "2 meses",
+            "4 meses",
+            "6 meses",
+            "18 meses (refuerzo)",
+            "5-6 años (2° refuerzo)"
+        ],
+        "dosis": "3 dosis + 2 refuerzos",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus4.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/polio"
+    },
+    {
+        "nombre": "Neumococo conjugada",
+        "previene": "Enfermedades invasivas por neumococo",
+        "edad_aplicacion": [
+            "2 meses",
+            "4 meses",
+            "12 meses (refuerzo)",
+            "Mayores de 65 años"
+        ],
+        "dosis": "2 dosis + 1 refuerzo en infancia, 1 en adultos mayores",
+        "grupo": "Niños y adultos mayores",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus5.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/neumococo"
+    },
+    {
+        "nombre": "Rotavirus",
+        "previene": "Diarrea grave por rotavirus",
+        "edad_aplicacion": [
+            "2 meses",
+            "4 meses"
+        ],
+        "dosis": "2 dosis",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus1.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/rotavirus"
+    },
+    {
+        "nombre": "Gripe",
+        "previene": "Influenza",
+        "edad_aplicacion": [
+            "6 meses",
+            "Anual en adultos",
+            "Embarazadas",
+            "Mayores de 65 años"
+        ],
+        "dosis": "Anual",
+        "grupo": "Toda la población con prioridad en niños, embarazadas y mayores",
+        "obligatoria": false,
+        "imagen": "/img/vacunasIllus2.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/antigripal"
+    },
+    {
+        "nombre": "Triple viral",
+        "previene": "Sarampión, rubéola, paperas",
+        "edad_aplicacion": [
+            "12 meses",
+            "5-6 años (2° dosis)"
+        ],
+        "dosis": "2 dosis",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus3.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/doble-triple-viral"
+    },
+    {
+        "nombre": "Hepatitis A",
+        "previene": "Hepatitis A",
+        "edad_aplicacion": [
+            "12 meses"
+        ],
+        "dosis": "1 dosis",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus4.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/hepatitisa"
+    },
+    {
+        "nombre": "Varicela",
+        "previene": "Varicela",
+        "edad_aplicacion": [
+            "15 meses"
+        ],
+        "dosis": "1 dosis",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus5.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/varicela"
+    },
+    {
+        "nombre": "Triple bacteriana celular (DTP)",
+        "previene": "Difteria, tétanos, tos convulsa",
+        "edad_aplicacion": [
+            "5-6 años"
+        ],
+        "dosis": "Refuerzo",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus1.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/triplebacterianacelular"
+    },
+    {
+        "nombre": "Triple bacteriana acelular (dTpa)",
+        "previene": "Difteria, tétanos, tos convulsa",
+        "edad_aplicacion": [
+            "11 años",
+            "Embarazadas (una dosis en cada embarazo)"
+        ],
+        "dosis": "1 en adolescencia + 1 en cada embarazo",
+        "grupo": "Adolescentes y embarazadas",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus2.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/triplebacterianaacelular"
+    },
+    {
+        "nombre": "HPV",
+        "previene": "Virus del papiloma humano",
+        "edad_aplicacion": [
+            "11 años"
+        ],
+        "dosis": "2 dosis",
+        "grupo": "Niñas y niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus3.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/vph"
+    },
+    {
+        "nombre": "Meningococo conjugada",
+        "previene": "Meningitis y sepsis",
+        "edad_aplicacion": [
+            "11 años"
+        ],
+        "dosis": "Refuerzo",
+        "grupo": "Adolescentes",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus4.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/novedadmeningococo"
+    },
+    {
+        "nombre": "Doble adultos (dT)",
+        "previene": "Difteria y tétanos",
+        "edad_aplicacion": [
+            "Cada 10 años en adultos"
+        ],
+        "dosis": "Refuerzo cada 10 años",
+        "grupo": "Adultos",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus5.jpg",
+        "link": "https://www.argentina.gob.ar/salud/vacunas/doblebacteriana"
+    },
+    {
+        "nombre": "Fiebre amarilla",
+        "previene": "Fiebre amarilla",
+        "edad_aplicacion": [
+            "9 meses (en zonas de riesgo o antes de viajar a zona endémica)"
+        ],
+        "dosis": "Única",
+        "grupo": "Niños y adultos según riesgo",
+        "obligatoria": false,
+        "imagen": "/img/vacunasIllus1.jpg",
+        "link": "https://www.argentina.gob.ar/salud/fiebreamarilla/vacuna"
+    },
+    {
+        "nombre": "Antineumocócica polisacárida 23V",
+        "previene": "Enfermedades invasivas por neumococo",
+        "edad_aplicacion": [
+            "Mayores de 65 años o con factores de riesgo"
+        ],
+        "dosis": "Única",
+        "grupo": "Adultos",
+        "obligatoria": false,
+        "imagen": "/img/vacunasIllus2.jpg",
+        "link": "https://medlineplus.gov/spanish/druginfo/meds/a607022-es.html"
+    },
+    {
+        "nombre": "Meningococo B",
+        "previene": "Meningitis y sepsis",
+        "edad_aplicacion": [
+            "3 meses",
+            "5 meses",
+            "15 meses"
+        ],
+        "dosis": "2 dosis + 1 refuerzo",
+        "grupo": "Niños",
+        "obligatoria": true,
+        "imagen": "/img/vacunasIllus3.jpg",
+        "link": "https://medlineplus.gov/spanish/ency/article/007659.htm"
+    }
+]

@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "831c2eb1-beae-43f5-93c2-82ac29a1734c",
+		"name": "mistoMed",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48691658",
+		"_collection_link": "https://maria-ollivier-4554332.postman.co/workspace/Maria-Pia-Ollivier's-Workspace~ba22b56c-5a27-4815-8611-42165f1ee96b/collection/48691658-831c2eb1-beae-43f5-93c2-82ac29a1734c?action=share&source=collection_link&creator=48691658"
+	},
+	"item": [
+		{
+			"name": "getVacunas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/vacunas",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"vacunas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVacunasById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/vacunas/68d6dd0d56af2b038f827759",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"vacunas",
+						"68d6dd0d56af2b038f827759"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "guardarVacuna",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"nombre\": \"Hepatitis B\",\r\n        \"previene\": \"La Hepatitis B\",\r\n        \"edad_aplicacion\": [\r\n            \"Recién nacido\",\r\n            \"2 meses\",\r\n            \"4 meses\",\r\n            \"6 meses\"\r\n        ],\r\n        \"dosis\": \"3 dosis + 1 al nacer\",\r\n        \"grupo\": \"Niños\",\r\n        \"obligatoria\": true,\r\n        \"imagen\": \"/img/vacunasIllus2.jpg\",\r\n        \"link\": \"https://www.argentina.gob.ar/salud/vacunas/hepatitisb\"\r\n    }\r\n     \r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/vacunas/68d6e32356af2b038f82778a",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"vacunas",
+						"68d6e32356af2b038f82778a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteVacuna",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/vacunas/68d6eb8a1686cea0fce69515",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"vacunas",
+						"68d6eb8a1686cea0fce69515"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editarVacuna",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n\r\n        \"dosis\": \"3 dosis más 1 en RN\"\r\n\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/vacunas/68d6eb8a1686cea0fce69515",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"vacunas",
+						"68d6eb8a1686cea0fce69515"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reemplazarVacuna",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"nombre\": \"Hepatitis B\",\r\n        \"previene\": \"La Hepatitis B\",\r\n        \"edad_aplicacion\": [\r\n            \"Recién nacido\",\r\n            \"2 meses\",\r\n            \"4 meses\",\r\n            \"6 meses\"\r\n        ],\r\n        \"dosis\": \"3 dosis más 1 en RN\",\r\n        \"grupo\": \"Niños\",\r\n        \"obligatoria\": true,\r\n        \"usuarioId\": \"68d6e32356af2b038f82778a\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/vacunas/68d6eb8a1686cea0fce69515",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"vacunas",
+						"68d6eb8a1686cea0fce69515"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/usuarios",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsuariosById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/usuarios/68d6e32356af2b038f82778b",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios",
+						"68d6e32356af2b038f82778b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "guardarUsuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 31,\r\n    \"nombre\": \"Sara\",\r\n    \"apellido\": \"Montoya\",\r\n    \"fechaNacimiento\": \"1998-09-21\",\r\n    \"sexo\": \"F\",\r\n    \"alergias\": [\r\n        \"Ninguna\"\r\n    ],\r\n    \"contactoEmergencia\": {\r\n        \"nombre\": \"Marta Garcia\",\r\n        \"telefono\": \"1122554466\"\r\n    },\r\n    \"direccion\": \"Avenida sur 333, Ciudad\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/usuarios",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUsuario",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/usuarios/68d6ed508479d49d9cd3a4f6",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios",
+						"68d6ed508479d49d9cd3a4f6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editarUsuario",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n\r\n        \"nombre\": \"Sofia\",\r\n        \"apellido\": \"Montoya Garcia\"\r\n    }\r\n    ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/usuarios/68d6ed778479d49d9cd3a4f7",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios",
+						"68d6ed778479d49d9cd3a4f7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reemplazarUsuario",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"nombre\": \"Sofia\",\r\n        \"apellido\": \"Montoya Garcia\",\r\n        \"fechaNacimiento\": \"1998-09-21\",\r\n        \"sexo\": \"F\",\r\n        \"alergias\": [\r\n            \"Penicilina\"\r\n        ],\r\n        \"contactoEmergencia\": {\r\n            \"nombre\": \"Marta Garcia\",\r\n            \"telefono\": \"1122554466\"\r\n        },\r\n        \"direccion\": \"Avenida sur 333, Ciudad\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/usuarios/68d6ed778479d49d9cd3a4f7",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios",
+						"68d6ed778479d49d9cd3a4f7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "agregarVacunaColocada",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"_id\": \"68d6eb8a1686cea0fce69515\",\r\n        \"nombre\": \"Hepatitis B\",\r\n        \"previene\": \"La Hepatitis B\",\r\n        \"edad_aplicacion\": [\r\n            \"Recién nacido\",\r\n            \"2 meses\",\r\n            \"4 meses\",\r\n            \"6 meses\"\r\n        ],\r\n        \"dosis\": \"3 dosis + 1 al nacer\",\r\n        \"grupo\": \"Niños\",\r\n        \"obligatoria\": true,\r\n        \"usuarioId\": \"68d6e32356af2b038f82778a\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/usuarios/68d6ed778479d49d9cd3a4f7",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"usuarios",
+						"68d6ed778479d49d9cd3a4f7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
