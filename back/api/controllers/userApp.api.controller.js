@@ -7,12 +7,10 @@ export async function createUserApp(req, res) {
   } catch (err) {
     console.error("ERROR REGISTER >>>", err.message);
 
-    // si el error viene del mail duplicado
     if (err.message.includes("Email existente")) {
       return res.status(400).json({ error: err.message });
     }
 
-    // otro error inesperado
     return res.status(500).json({ error: "Error interno al crear usuario" });
   }
 }
