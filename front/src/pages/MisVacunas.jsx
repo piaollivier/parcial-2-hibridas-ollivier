@@ -6,6 +6,9 @@ export default function MisVacunas() {
   const { userApp } = useUsuario();
   const [vacunas, setVacunas] = useState([]);
 
+  const avatarUrl = `https://api.dicebear.com/7.x/adventurer/svg?seed=${userApp?.username || userApp?.email}`;
+
+
   const obtenerMisVacunas = () => {
     if (!userApp?._id) return;
 
@@ -40,13 +43,81 @@ export default function MisVacunas() {
 
   return (
     <main className="mis-vacunas-container">
-      <h1>Mis Vacunas</h1>
+      <h1 style={{ visibility: "hidden" }}>Mis Vacunas</h1>
 
-      <div  style={{ marginBottom: "20px" }}>
-        <Link to="/mis-vacunas/nueva" className="btn-crear boton">
-          Crear nueva vacuna
-        </Link>
-      </div>
+
+              <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "12px",
+            marginBottom: "24px",
+            textAlign: "center",
+            background: "linear-gradient(135deg, #f5f7fa, #e4ecf5)",
+            borderRadius: "16px",
+            padding: "24px",
+            marginBottom: "24px",
+          }}
+        >
+          <img
+            src={avatarUrl}
+            alt="Avatar usuario"
+            style={{
+              width: "110px",
+              height: "110px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "3px solid #1e3a5f",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+
+            }}
+          />
+
+          <span
+            style={{
+              fontWeight: "700",
+              fontSize: "1.5rem",
+              textTransform: "uppercase",
+              color: "#1e3a5f",
+              letterSpacing: "1px",
+            }}
+          >
+            {userApp.username || "Usuario"}
+          </span>      
+          
+<div style={{ margin: "24px 0", display: "flex", justifyContent: "center" }}>
+  <Link
+    to="/mis-vacunas/nueva"
+    style={{
+      background: "#1e3a5f",
+      color: "#ffffff",
+      padding: "12px 24px",
+      borderRadius: "10px",
+      textDecoration: "none",
+      fontWeight: "600",
+      fontSize: "0.95rem",
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+      transition: "all 0.2s ease",
+      display: "inline-block",
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = "#163047";
+      e.currentTarget.style.transform = "translateY(-1px)";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "#1e3a5f";
+      e.currentTarget.style.transform = "translateY(0)";
+    }}
+  >
+    CARGAR NUEVA VACUNA
+  </Link>
+</div>
+
+        </div>
+
+
     
       {vacunas.length === 0 ? (
         <p>No tenés vacunas cargadas.</p>

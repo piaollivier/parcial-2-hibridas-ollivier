@@ -14,7 +14,8 @@ export async function createToken(userApp) {
 
     const payload = {
         _id: userApp._id.toString(),   
-        email: userApp.email
+        email: userApp.email,
+        username: userApp.username,
     };
 
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "2h" });

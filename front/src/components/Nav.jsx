@@ -5,6 +5,9 @@ export default function Nav() {
   const { userApp } = useUsuario();
   const logout = useLogout();
 
+  const avatarUrl = `https://api.dicebear.com/7.x/adventurer/svg?seed=${userApp?.username || userApp?.email}`;
+
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -28,20 +31,48 @@ export default function Nav() {
             </>
           ) : (
             <>
-              <Link to="/mi-perfil" className="user-email">
-                {userApp.email}
-              </Link>
+
+
 
               <Link to="/vacunas">Vacunas</Link>
               <Link to="/mis-vacunas">Mis Vacunas</Link>
               <Link to="/grupos">Grupos</Link>
-              <span
-                onClick={logout}
-                className="navbar-link-fake"
-                style={{ cursor: "pointer" }}
+
+              <Link
+                to="/mi-perfil"
+                className="user-email"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
               >
-                Logout
-              </span>
+                <img
+                  src={avatarUrl}
+                  alt="avatar"
+                  style={{
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    border: "2px solid #fff",
+                  }}
+                />
+
+                <span style={{
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}>
+                  {userApp.username || userApp.email}
+                </span>
+              </Link>
+
+              <button onClick={logout} className="btn-logout-nav">
+                Salir
+              </button>
+
+
             </>
           )}
         </div>

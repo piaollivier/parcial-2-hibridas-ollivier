@@ -6,6 +6,8 @@ const MisVacunasCrear = () => {
   const navigate = useNavigate();
   const { userApp } = useUsuario();
 
+  const [modo, setModo] = useState("catalogo");
+
   const [form, setForm] = useState({
     nombre: "",
     previene: "",
@@ -18,11 +20,25 @@ const MisVacunasCrear = () => {
 
   const [grupos, setGrupos] = useState([]);
 
+  const [catalogo, setCatalogo] = useState([]);
+  const [catalogoId, setCatalogoId] = useState("");
+
   useEffect(() => {
     fetch("http://localhost:3333/api/grupos")
       .then((res) => res.json())
-      .then((data) => setGrupos(data))
+      .then((data) => setGrupos(Array.isArray(data) ? data : []))
       .catch(() => console.log("Error al obtener grupos"));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3333/api/vacunas")
+      .then((res) => res.json())
+      .then((data) => {
+        const arr = Array.isArray(data) ? data : [];
+        const globales = arr.filter((v) => !v.userId);
+        setCatalogo(globales);
+      })
+      .catch(() => console.log("Error al obtener catálogo de vacunas"));
   }, []);
 
   const handleChange = (e) => {
@@ -33,25 +49,106 @@ const MisVacunasCrear = () => {
     }));
   };
 
+const toStringEdad = (value) => {
+  if (Array.isArray(value)) return value.join(", ");
+  if (value === null || value === undefined) return "";
+  return String(value);
+};
+
+const handleSelectCatalogo = (e) => {
+  const id = e.target.value;
+  setCatalogoId(id);
+
+  const v = catalogo.find((x) => x._id === id);
+  if (!v) return;
+
+  setForm((prev) => ({
+    ...prev,
+    nombre: v.nombre ?? "",
+    previene: v.previene ?? "",
+    edad_aplicacion: toStringEdad(v.edad_aplicacion), 
+    dosis: v.dosis ?? "",
+    grupo: v.grupo ?? "",
+    obligatoria: !!v.obligatoria,
+  }));
+};
+
+
+  useEffect(() => {
+    if (modo === "manual") {
+      setCatalogoId("");
+      setForm({
+        nombre: "",
+        previene: "",
+        edad_aplicacion: "",
+        dosis: "",
+        grupo: "",
+        obligatoria: false,
+        fecha_colocacion: "",
+      });
+    }
+
+    if (modo === "catalogo") {
+      setCatalogoId("");
+      setForm((prev) => ({
+        ...prev,
+        nombre: "",
+        previene: "",
+        edad_aplicacion: "",
+        dosis: "",
+        grupo: "",
+        obligatoria: false,
+      }));
+    }
+  }, [modo]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const body = {
-      ...form,
-      userId: userApp?._id,
-    };
+    if (modo === "catalogo" && !catalogoId) {
+      alert("Seleccioná una vacuna del catálogo.");
+      return;
+    }
+
+    if (!form.grupo) {
+      alert("Seleccioná un grupo.");
+      return;
+    }
+
+const body = {
+  ...form,
+  edad_aplicacion: Array.isArray(form.edad_aplicacion)
+    ? form.edad_aplicacion.join(", ")
+    : String(form.edad_aplicacion || ""),
+  userId: userApp?._id,
+};
 
     fetch("http://localhost:3333/api/vacunas", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${userApp.token}`, 
       },
       body: JSON.stringify(body),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al crear vacuna");
-        return res.json();
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          console.log("❌ ERROR BACK FULL >>>", data);
+          console.log("❌ ERROR BACK MESSAGE >>>", data?.message);
+
+          throw new Error(
+            data?.error ||
+            data?.message?.[0] ||
+            (Array.isArray(data?.message) ? data.message.join(" | ") : data?.message) ||
+            "Error al crear vacuna"
+          );
+        }
+
+        return data;
       })
+
       .then(() => navigate("/mis-vacunas"))
       .catch((err) => console.error(err));
   };
@@ -59,60 +156,123 @@ const MisVacunasCrear = () => {
   return (
     <main className="mis-vacunas-crear">
       <div className="card-auth">
-        
-        <div style={{ display: "flex", justifyContent: "start", alignItems: "center", gap: "16px" }}>
-          <button className="boton" onClick={() => navigate(-1)}>Volver</button>
-        </div>
-
         <h1 className="card-auth__title">Cargar mi vacuna</h1>
 
+        
+
+        <div className="modo-vacuna">
+          <label className={`modo-opcion ${modo === "catalogo" ? "activo" : ""}`}>
+            <input
+              type="radio"
+              name="modo"
+              value="catalogo"
+              checked={modo === "catalogo"}
+              onChange={() => setModo("catalogo")}
+            />
+            Elegir del catálogo
+          </label>
+
+          <label className={`modo-opcion ${modo === "manual" ? "activo" : ""}`}>
+            <input
+              type="radio"
+              name="modo"
+              value="manual"
+              checked={modo === "manual"}
+              onChange={() => setModo("manual")}
+            />
+            Cargar desde cero
+          </label>
+        </div>
+
         <form onSubmit={handleSubmit} className="form-vacuna">
+          {modo === "catalogo" && (
+            <>
+              <label>
+                Seleccioná una vacuna
+                <select
+                  className="input-auth"
+                  value={catalogoId}
+                  onChange={handleSelectCatalogo}
+                >
+                  <option value="">— Seleccionar vacuna —</option>
+                  {catalogo.map((v) => (
+                    <option key={v._id} value={v._id}>
+                      {v.nombre}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-          <label>
-            Nombre de la vacuna
-            <input
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              required
-              placeholder="Ingresar nombre de la vacuna"
-            />
-          </label>
+              {catalogoId && (
+                <div className="catalogo-resumen">
+                  <p>
+                    <strong>Previene:</strong> {form.previene || "—"}
+                  </p>
+                  <p>
+                    <strong>Edad:</strong> {form.edad_aplicacion || "—"}
+                  </p>
+                  <p>
+                    <strong>Dosis:</strong> {form.dosis || "—"}
+                  </p>
+                </div>
+              )}
+            </>
+          )}
 
-          <label>
-            Previene
-            <input
-              name="previene"
-              value={form.previene}
-              onChange={handleChange}
-              required
-              placeholder="Ingresar qué previene"
-            />
-          </label>
+          {modo === "manual" && (
+            <>
+              <label>
+                Nombre de la vacuna
+                <input
+                  className="input-auth"
+                  name="nombre"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  required
+                  placeholder="Ingresar nombre de la vacuna"
+                />
+              </label>
 
-          <label>
-            Edad de aplicación recomendada
-            <input
-              name="edad_aplicacion"
-              value={form.edad_aplicacion}
-              onChange={handleChange}
-              placeholder="Ingresar edad"
-            />
-          </label>
+              <label>
+                Previene
+                <input
+                  className="input-auth"
+                  name="previene"
+                  value={form.previene}
+                  onChange={handleChange}
+                  required
+                  placeholder="Ingresar qué previene"
+                />
+              </label>
 
-          <label>
-            Dosis aplicada
-            <input
-              name="dosis"
-              value={form.dosis}
-              onChange={handleChange}
-              placeholder="Ingresar dosis"
-            />
-          </label>
+              <label>
+                Edad de aplicación recomendada
+                <input
+                  className="input-auth"
+                  name="edad_aplicacion"
+                  value={form.edad_aplicacion}
+                  onChange={handleChange}
+                  placeholder="Ingresar edad"
+                />
+              </label>
+
+              <label>
+                Dosis aplicada
+                <input
+                  className="input-auth"
+                  name="dosis"
+                  value={form.dosis}
+                  onChange={handleChange}
+                  placeholder="Ingresar dosis"
+                />
+              </label>
+            </>
+          )}
 
           <label>
             Grupo / categoría
             <select
+              className="input-auth"
               name="grupo"
               value={form.grupo}
               onChange={handleChange}
@@ -130,6 +290,7 @@ const MisVacunasCrear = () => {
           <label>
             Fecha de colocación
             <input
+              className="input-auth"
               type="date"
               name="fecha_colocacion"
               value={form.fecha_colocacion}
@@ -151,6 +312,15 @@ const MisVacunasCrear = () => {
             Guardar cambios
           </button>
 
+          <div style={{ display: "flex", justifyContent: "start", gap: "16px" }}>
+            <button
+              type="button"
+              className="boton"
+              onClick={() => navigate(-1)}
+            >
+              Volver
+            </button>
+          </div>
         </form>
       </div>
     </main>

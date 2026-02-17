@@ -42,6 +42,7 @@ export function SessionProvider({ children }) {
     const userFixed = {
       _id: payload._id,
       email: payload.email,
+      username: payload.username,
       token: user.token,
     };
 
