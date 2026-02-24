@@ -5,6 +5,7 @@ import DashboardRoutes from "./routes/dashboard.routes.js"
 import UsuariosApiRoutes from "./api/routes/usuarios.api.routes.js"
 import userAppApiRoutes from "./api/routes/userApp.api.routes.js"
 import gruposApiRoutes from "./api/routes/grupo.api.routes.js"
+import perfilesApiRoutes from "./api/routes/perfiles.api.routes.js"
 import cors from "cors"
 
 
@@ -27,6 +28,8 @@ app.use( "/api/usuarios", UsuariosApiRoutes )
 
 app.use("/api/userApp", userAppApiRoutes)
 app.use("/api/grupos", gruposApiRoutes)
+
+app.use("/api/perfiles", perfilesApiRoutes)
 
 app.use( express.static("public") )
 

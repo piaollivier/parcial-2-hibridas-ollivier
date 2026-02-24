@@ -26,6 +26,21 @@ export function useLogout() {
   return onLogout;
 }
 
+export function usePerfilActivo() {
+  const { perfilActivo } = useContext(SessionContext);
+  return perfilActivo;
+}
+
+export function useSeleccionarPerfil() {
+  const { seleccionarPerfil } = useContext(SessionContext);
+  return seleccionarPerfil;
+}
+
+export function useLimpiarPerfil() {
+  const { limpiarPerfil } = useContext(SessionContext);
+  return limpiarPerfil;
+}
+
 export function SessionProvider({ children }) {
   const [userApp, setUserApp] = useState(
     () => JSON.parse(localStorage.getItem("session")) || null
@@ -60,9 +75,25 @@ export function SessionProvider({ children }) {
     localStorage.removeItem("token");
   };
 
+
+  const [perfilActivo, setPerfilActivo] = useState(
+    JSON.parse(localStorage.getItem("perfilActivo")) || null
+  );
+
+  const seleccionarPerfil = (perfil) => {
+    setPerfilActivo(perfil);
+    localStorage.setItem("perfilActivo", JSON.stringify(perfil));
+  };
+
+  const limpiarPerfil = () => {
+    setPerfilActivo(null);
+    localStorage.removeItem("perfilActivo");
+  };
+
+
   return (
     <SessionContext.Provider
-      value={{ userApp, setUserApp, token, setToken, onLogin, onLogout }}
+      value={{ userApp, setUserApp, token, setToken, onLogin, onLogout, perfilActivo, seleccionarPerfil, limpiarPerfil }}
     >
       {children}
     </SessionContext.Provider>

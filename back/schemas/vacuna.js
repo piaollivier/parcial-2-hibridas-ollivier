@@ -33,4 +33,11 @@ export const vacunaSchema = yup.object().shape({
     link: yup.string()
         .url("El campo 'link' debe ser una URL válida")
         .notRequired(),
+        
+    perfilId: yup.string()
+        .nullable(),
+
+    userId: yup.string()
+        .nullable(),
+
 });

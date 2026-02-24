@@ -20,6 +20,8 @@ import MiPerfil from "./pages/MiPerfil.jsx"
 import Grupos from "./pages/Grupos.jsx"
 import GruposCrear from "./pages/GruposCrear.jsx"
 import GruposEditar from "./pages/GruposEditar.jsx"
+import Perfiles from "./pages/Perfiles";
+
 
 const router = createBrowserRouter([
   {
@@ -73,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "/grupos/editar/:id",
         element: <ProtectedRoute component={<GruposEditar />} />,
+      },
+      {
+        path: "/perfiles",
+        element: <ProtectedRoute component={<Perfiles />} />,
       }
     ],
   },

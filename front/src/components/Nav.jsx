@@ -37,6 +37,8 @@ export default function Nav() {
               <Link to="/vacunas">Vacunas</Link>
               <Link to="/mis-vacunas">Mis Vacunas</Link>
               <Link to="/grupos">Grupos</Link>
+              <Link to="/perfiles">Perfiles</Link>
+
 
               <Link
                 to="/mi-perfil"
