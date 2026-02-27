@@ -47,3 +47,24 @@ export async function deletePerfil(req, res) {
     res.status(400).json({ error: e.message || "No se pudo eliminar" });
   }
 }
+
+export async function getPerfilesCreados(req, res) {
+  try {
+    const userId = req.user?._id;
+    const data = await service.getPerfilesCreadosPorMi(userId);
+    res.json(data);
+  } catch {
+    res.status(500).json({ error: "Error interno" });
+  }
+}
+
+export async function getPerfilesCompartidos(req, res) {
+  try {
+    const userId = req.user?._id;
+    const data = await service.getPerfilesCompartidosConmigo(userId);
+    res.json(data);
+  } catch {
+    res.status(500).json({ error: "Error interno" });
+  }
+}
+

@@ -13,4 +13,9 @@ route.post("/:id/invitar", tokenValidate, controller.invitar);
 // ✅ eliminar
 route.delete("/:id", tokenValidate, controller.deletePerfil);
 
+route.get("/mios", tokenValidate, controller.getPerfilesCreados);
+route.get("/compartidos", tokenValidate, controller.getPerfilesCompartidos);
+
+
+
 export default route;

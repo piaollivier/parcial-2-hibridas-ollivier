@@ -76,3 +76,44 @@ export async function invitarPerfil(id, email, userId) {
 
   return { ok: true };
 }
+
+export async function getPerfilesCreadosPorMi(userId) {
+  await client.connect();
+  return perfiles.find({ ownerId: new ObjectId(userId) }).toArray();
+}
+
+export async function getPerfilesCompartidosConmigo(userId) {
+  await client.connect();
+
+  const uid = new ObjectId(userId);
+
+  const data = await perfiles
+    .aggregate([
+      {
+        $match: {
+          miembros: uid,
+          ownerId: { $ne: uid },
+        },
+      },
+      {
+        $lookup: {
+          from: "userApps",
+          localField: "ownerId",
+          foreignField: "_id",
+          as: "owner",
+        },
+      },
+      { $unwind: { path: "$owner", preserveNullAndEmptyArrays: true } },
+      {
+        $addFields: {
+          ownerUsername: "$owner.username",
+          ownerEmail: "$owner.email",
+        },
+      },
+      { $project: { owner: 0 } }, // sacamos el objeto owner completo (opcional)
+    ])
+    .toArray();
+
+  return data;
+}
+
