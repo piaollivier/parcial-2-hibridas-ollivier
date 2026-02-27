@@ -35,3 +35,15 @@ export async function invitar(req, res) {
     return res.status(400).json({ error: err.message });
   }
 }
+
+export async function deletePerfil(req, res) {
+  try {
+    const id = req.params.id;
+    const userId = req.user?._id; // viene de tokenValidate
+
+    const r = await service.deletePerfil(id, userId);
+    res.json(r);
+  } catch (e) {
+    res.status(400).json({ error: e.message || "No se pudo eliminar" });
+  }
+}

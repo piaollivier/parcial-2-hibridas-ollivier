@@ -6,6 +6,11 @@ const route = Router();
 
 route.get("/", tokenValidate, controller.getPerfiles);
 route.post("/", tokenValidate, controller.createPerfil);
+
+// ✅ compartir
 route.post("/:id/invitar", tokenValidate, controller.invitar);
+
+// ✅ eliminar
+route.delete("/:id", tokenValidate, controller.deletePerfil);
 
 export default route;
