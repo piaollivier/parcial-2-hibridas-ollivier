@@ -70,9 +70,9 @@ export default function Nav() {
                 </span>
               </Link>
 
-              <button onClick={logout} className="btn-logout-nav">
+              <Link to="/logout" className="btn-logout-nav">
                 Salir
-              </button>
+              </Link>
 
 
             </>

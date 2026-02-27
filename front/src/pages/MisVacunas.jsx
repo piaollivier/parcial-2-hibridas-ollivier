@@ -18,7 +18,6 @@ const seleccionarPerfil = useSeleccionarPerfil();
 
   const avatarUrl = `https://api.dicebear.com/7.x/adventurer/svg?seed=${userApp?.username || userApp?.email}`;
 
-  // 1) cargar perfiles del user
   useEffect(() => {
     if (!userApp?.token) return;
 
@@ -30,7 +29,6 @@ const seleccionarPerfil = useSeleccionarPerfil();
       .catch(() => console.log("Error al obtener perfiles"));
   }, [userApp?.token]);
 
-  // sincronizar select con contexto
   useEffect(() => {
     if (perfilActivo?._id) setPerfilIdLocal(perfilActivo._id);
   }, [perfilActivo?._id]);
@@ -50,7 +48,6 @@ const seleccionarPerfil = useSeleccionarPerfil();
       .catch(() => console.log("Error al obtener vacunas del perfil"));
   };
 
-  // 2) cargar vacunas cada vez que cambia el perfil seleccionado
   useEffect(() => {
     obtenerVacunas(perfilIdLocal);
   }, [perfilIdLocal]);
@@ -116,7 +113,6 @@ const seleccionarPerfil = useSeleccionarPerfil();
           {userApp?.username || "Usuario"}
         </span>
 
-        {/* ✅ SELECT PERFIL (FILTRO) */}
         <div style={{ width: "100%", maxWidth: 420, textAlign: "left" }}>
           <label style={{ fontWeight: 600, color: "#1e3a5f" }}>
             Perfil
@@ -136,7 +132,6 @@ const seleccionarPerfil = useSeleccionarPerfil();
           </label>
         </div>
 
-        {/* Botón crear vacuna: solo habilitado si hay perfil */}
         <div style={{ margin: "18px 0", display: "flex", justifyContent: "center" }}>
           <Link
             to="/mis-vacunas/nueva"

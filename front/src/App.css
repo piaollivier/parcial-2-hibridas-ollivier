@@ -50,18 +50,23 @@ main{
 /* btn salir */
 
 .btn-logout-nav {
-  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  /* background: rgb(6, 43, 97); */
   color: #fff;
   border: 2px solid rgba(255, 255, 255, 0.55);
-  padding: 9px 24px;
+  padding: 10px 22px !important;
   margin-left: 70px;
-  border-radius: 999px;
+  border-radius: 999px; /* 🔥 clave para forma píldora */
   font-weight: 700;
   cursor: pointer;
   font-size: medium;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   line-height: 1;
-  transition: 0.2s ease;
+
+  transition: all 0.2s ease;
 }
 
 .btn-logout-nav:hover {
@@ -70,13 +75,14 @@ main{
 }
 
 .btn-logout-nav:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .btn-logout-nav:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
+
 
 .card {
   padding: 2em;
@@ -195,12 +201,11 @@ main{
 
 .user-email, .navbar-link-fake, .navbar-links a {
     text-decoration: none !important;
-    font-size: 1.3rem !important;
+    font-size: 1.1rem !important;
     font-weight: 500;
-    font-size: 1rem;
     color: #fff;
     padding: 6px 10px;
-    border-radius: 6px;
+    /* border-radius: 6px; */
     transition: 0.25s all ease;
 }
 
@@ -485,17 +490,18 @@ main{
 }
 
 .btn-borrar {
-  background-color: #ff4d4f;
-  color: white;
+  background-color: transparent;
+  color: #ff4d4f;
   border: none;
   padding: 8px 14px;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   cursor: pointer;
   transition: 0.2s;
 }
 
 .btn-borrar:hover {
-  background-color: #c43133;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .btn-editar {
@@ -708,6 +714,7 @@ main{
 .boton,  
 .btn-primary-auth {
   margin-top: 8px;
+  text-decoration: none;
   width: 100%;
   padding: 12px 16px;
   border-radius: 8px;

@@ -7,15 +7,10 @@ import { useUsuario } from "../context/SessionContext";
 
 const Login = () => {
     const navigate = useNavigate()
-
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const { setUserApp } = useUsuario();
-
-
-
     const login = useLogin()
 
     const handleSubmit = (e) => {
@@ -34,14 +29,11 @@ const Login = () => {
                 return res.json()
             })
             .then(userApp => {
-
                 login(userApp);
-
-                navigate("/vacunas");
+                navigate("/");
             })
             .catch(err => setError("Error en login: " + err.message))
     }
-
 
     return (
         <div className="login-page">
@@ -72,8 +64,6 @@ const Login = () => {
                             ¡Registrate!
                         </a>
                     </p>
-
-
                 </form>
             </div>
         </div>
