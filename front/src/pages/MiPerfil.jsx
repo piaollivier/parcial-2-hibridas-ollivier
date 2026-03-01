@@ -130,11 +130,11 @@ export default function MiPerfil() {
             </p>
           )}
 
-          {userApp._id && (
+          {/* {userApp._id && (
             <p>
               <strong>ID de usuario:</strong> {userApp._id}
             </p>
-          )}
+          )} */}
         </div>
 
         {/* Acciones */}
