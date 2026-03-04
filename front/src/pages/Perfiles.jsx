@@ -9,10 +9,20 @@ export default function Perfiles() {
   const [perfiles, setPerfiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [nuevoNombre, setNuevoNombre] = useState("");
+  // ✅ form completo crear perfil
+  const [formPerfil, setFormPerfil] = useState({
+    nombre: "",
+    apellido: "",
+    fechaNacimiento: "",
+    dni: "",
+    grupoSanguineo: "",
+    factor: "",
+    telefono: "",
+  });
+
   const [error, setError] = useState("");
 
-  // compartir
+  // ✅ compartir
   const [shareOpenId, setShareOpenId] = useState(null);
   const [shareEmailById, setShareEmailById] = useState({});
   const [shareMsgById, setShareMsgById] = useState({});
@@ -42,12 +52,11 @@ export default function Perfiles() {
       });
 
       const data = await res.json().catch(() => []);
-
       if (!res.ok) throw new Error(data?.error || "Error al obtener perfiles");
 
       setPerfiles(Array.isArray(data) ? data : []);
     } catch (err) {
-      setError(err.message || "Error al obtener perfiles");
+      setError(err?.message || "Error al obtener perfiles");
     } finally {
       setLoading(false);
     }
@@ -58,30 +67,53 @@ export default function Perfiles() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userApp?.token]);
 
+  const onChangeForm = (e) => {
+    const { name, value } = e.target;
+    setFormPerfil((prev) => ({ ...prev, [name]: value }));
+  };
+
   const crearPerfil = async (e) => {
     e.preventDefault();
     setError("");
 
-    const nombre = nuevoNombre.trim();
-    if (!nombre) {
-      setError("Ingresá un nombre para el perfil.");
-      return;
-    }
+    const payload = {
+      nombre: formPerfil.nombre.trim(),
+      apellido: formPerfil.apellido.trim(),
+      fechaNacimiento: formPerfil.fechaNacimiento,
+      dni: String(formPerfil.dni || "").trim(),
+      grupoSanguineo: formPerfil.grupoSanguineo,
+      factor: formPerfil.factor,
+      telefono: String(formPerfil.telefono || "").trim(),
+    };
+
+    // ✅ validaciones mínimas (ajustá si tu back pide más/menos)
+    if (!payload.nombre) return setError("Nombre requerido");
+    if (!payload.dni) return setError("DNI requerido");
+    if (!payload.fechaNacimiento) return setError("Fecha de nacimiento requerida");
 
     try {
       const res = await fetch("http://localhost:3333/api/perfiles", {
         method: "POST",
         headers: headersAuth,
-        body: JSON.stringify({ nombre }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || "Error al crear perfil");
 
-      setNuevoNombre("");
+      setFormPerfil({
+        nombre: "",
+        apellido: "",
+        fechaNacimiento: "",
+        dni: "",
+        grupoSanguineo: "",
+        factor: "",
+        telefono: "",
+      });
+
       await cargarPerfiles();
     } catch (err) {
-      setError(err.message || "Error al crear perfil");
+      setError(err?.message || "Error al crear perfil");
     }
   };
 
@@ -123,41 +155,40 @@ export default function Perfiles() {
         ...prev,
         [perfilId]: { type: "ok", text: "✅ Invitación enviada." },
       }));
-      setShareEmailById((prev) => ({ ...prev, [perfilId]: "" }));
 
+      setShareEmailById((prev) => ({ ...prev, [perfilId]: "" }));
       await cargarPerfiles();
     } catch (err) {
       setShareMsgById((prev) => ({
         ...prev,
-        [perfilId]: { type: "error", text: err.message || "No se pudo invitar" },
+        [perfilId]: {
+          type: "error",
+          text: err?.message || "No se pudo invitar",
+        },
       }));
     } finally {
       setSharing(false);
     }
   };
-  
-const eliminarPerfil = async (id) => {
-  if (!window.confirm("¿Seguro que querés eliminar este perfil?")) return;
 
-  try {
-    const res = await fetch(`http://localhost:3333/api/perfiles/${id}`, {
-      method: "DELETE",
-      headers: headersAuth,
-    });
+  const eliminarPerfil = async (id) => {
+    if (!window.confirm("¿Seguro que querés eliminar este perfil?")) return;
 
-    const data = await res.json().catch(() => ({}));
+    try {
+      const res = await fetch(`http://localhost:3333/api/perfiles/${id}`, {
+        method: "DELETE",
+        headers: headersAuth,
+      });
 
-    if (!res.ok) {
-      throw new Error(data?.error || "No se pudo eliminar el perfil");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || "No se pudo eliminar el perfil");
+
+      alert("Perfil eliminado con éxito ✅");
+      await cargarPerfiles();
+    } catch (err) {
+      alert(err?.message || "No se pudo eliminar el perfil");
     }
-
-    alert("Perfil eliminado con éxito ✅");
-
-    await cargarPerfiles(); // refresca lista
-  } catch (err) {
-    alert(err.message);
-  }
-};
+  };
 
   if (!userApp) {
     return (
@@ -175,15 +206,83 @@ const eliminarPerfil = async (id) => {
       <div className="card-auth">
         <h1 className="card-auth__title">Perfiles</h1>
 
-        {/* Crear perfil */}
+        {/* ✅ Crear perfil (form completo) */}
         <form onSubmit={crearPerfil} className="form-vacuna" style={{ marginBottom: 18 }}>
           <label>
-            Nombre del perfil
+            Nombre *
             <input
-              value={nuevoNombre}
-              onChange={(e) => setNuevoNombre(e.target.value)}
+              name="nombre"
+              value={formPerfil.nombre}
+              onChange={onChangeForm}
               placeholder="Ej: Bautista"
               required
+            />
+          </label>
+
+          <label>
+            Apellido
+            <input
+              name="apellido"
+              value={formPerfil.apellido}
+              onChange={onChangeForm}
+              placeholder="Ej: Pérez"
+            />
+          </label>
+
+          <label>
+            Fecha de nacimiento *
+            <input
+              type="date"
+              name="fechaNacimiento"
+              value={formPerfil.fechaNacimiento}
+              onChange={onChangeForm}
+              required
+            />
+          </label>
+
+          <label>
+            DNI *
+            <input
+              name="dni"
+              value={formPerfil.dni}
+              onChange={onChangeForm}
+              placeholder="40123456"
+              inputMode="numeric"
+              required
+            />
+          </label>
+
+          <label>
+            Grupo sanguíneo
+            <select
+              name="grupoSanguineo"
+              value={formPerfil.grupoSanguineo}
+              onChange={onChangeForm}
+            >
+              <option value="">Seleccionar</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="AB">AB</option>
+              <option value="O">O</option>
+            </select>
+          </label>
+
+          <label>
+            Factor
+            <select name="factor" value={formPerfil.factor} onChange={onChangeForm}>
+              <option value="">Seleccionar</option>
+              <option value="+">+</option>
+              <option value="-">-</option>
+            </select>
+          </label>
+
+          <label>
+            Teléfono
+            <input
+              name="telefono"
+              value={formPerfil.telefono}
+              onChange={onChangeForm}
+              placeholder="Ej: 3875551234"
             />
           </label>
 
@@ -198,7 +297,7 @@ const eliminarPerfil = async (id) => {
           </button>
         </form>
 
-        {/* Lista */}
+        {/* ✅ Lista */}
         {loading ? (
           <p>Cargando perfiles...</p>
         ) : perfiles.length === 0 ? (
@@ -212,12 +311,23 @@ const eliminarPerfil = async (id) => {
                 <li key={p._id} className="vacuna-item">
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
                     <div>
-                      <h3 style={{ marginBottom: 6 }}>{p.nombre}</h3>
+                      <h3 style={{ marginBottom: 6 }}>
+                        {p.nombre} {p.apellido ? p.apellido : ""}
+                      </h3>
+
                       {!owner && (
                         <p style={{ margin: 0, fontWeight: 700, opacity: 0.75 }}>
                           Compartido
                         </p>
                       )}
+
+                      {/* info extra si existe */}
+                      <p style={{ margin: "6px 0 0", opacity: 0.8, fontSize: 13 }}>
+                        {p.dni ? `DNI: ${p.dni}` : ""}
+                        {p.fechaNacimiento ? ` · Nac: ${String(p.fechaNacimiento).slice(0, 10)}` : ""}
+                        {p.grupoSanguineo ? ` · Sangre: ${p.grupoSanguineo}${p.factor || ""}` : ""}
+                        {p.telefono ? ` · Tel: ${p.telefono}` : ""}
+                      </p>
                     </div>
 
                     <div className="btns" style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -252,7 +362,7 @@ const eliminarPerfil = async (id) => {
                     </div>
                   </div>
 
-                  {/* Panel compartir */}
+                  {/* ✅ Panel compartir */}
                   {owner && shareOpenId === p._id && (
                     <div style={{ marginTop: 14 }}>
                       <label style={{ display: "grid", gap: 8 }}>

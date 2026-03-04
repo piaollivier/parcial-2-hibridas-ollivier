@@ -24,12 +24,23 @@ export async function getVacunas(query = {}) {
   return vacunas.find(q).toArray();
 }
 
+// export async function getVacunasById(id, userId, perfilId) {
+//   await client.connect();
+
+//   const filter = { _id: new ObjectId(id) };
+//   if (perfilId) filter.perfilId = new ObjectId(perfilId);
+//   else if (userId) filter.userId = userId;
+
+//   return vacunas.findOne(filter);
+// }
+
 export async function getVacunasById(id, userId, perfilId) {
   await client.connect();
 
   const filter = { _id: new ObjectId(id) };
+
   if (perfilId) filter.perfilId = new ObjectId(perfilId);
-  else if (userId) filter.userId = userId;
+  else if (userId) filter.userId = userId; // solo para compatibilidad vieja
 
   return vacunas.findOne(filter);
 }
@@ -76,4 +87,21 @@ export async function eliminarVacunaLogico(id, userId, perfilId) {
   else filter.userId = userId;
 
   return vacunas.updateOne(filter, { $set: { deleted: true } });
+}
+
+export async function editarVacunaPorPerfil(vacunaId, perfilId, datos) {
+  await client.connect();
+
+  const filter = {
+    _id: new ObjectId(vacunaId),
+    perfilId: new ObjectId(perfilId),
+  };
+
+  const result = await vacunas.findOneAndUpdate(
+    filter,
+    { $set: datos },
+    { returnDocument: "after" }
+  );
+
+  return result.value;
 }

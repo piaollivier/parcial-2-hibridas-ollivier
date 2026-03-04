@@ -12,10 +12,25 @@ export async function getPerfiles(req, res) {
 
 export async function createPerfil(req, res) {
   try {
-    const { nombre } = req.body;
-    if (!nombre) return res.status(400).json({ error: "Nombre requerido" });
+    const {
+      nombre,
+      apellido,
+      fechaNacimiento,
+      dni,
+      grupoSanguineo,
+      factor,
+      telefono,
+    } = req.body;
 
-    const perfil = await service.createPerfil({ nombre }, req.user._id);
+    if (!nombre) return res.status(400).json({ error: "Nombre requerido" });
+    if (!dni) return res.status(400).json({ error: "DNI requerido" });
+    if (!fechaNacimiento) return res.status(400).json({ error: "Fecha de nacimiento requerida" });
+
+    const perfil = await service.createPerfil(
+      { nombre, apellido, fechaNacimiento, dni, grupoSanguineo, factor, telefono },
+      req.user._id
+    );
+
     return res.status(201).json(perfil);
   } catch (err) {
     console.error("ERROR CREATE PERFIL >>>", err.message);

@@ -40,7 +40,7 @@ export default function Vacunas() {
 
   return (
     <main className="mis-vacunas-crear">
-      <div className="card-auth" style={{ maxWidth: "900px" }}>
+      <div className="card-auth" >
         <h1 className="card-auth__title">Vacunas del calendario</h1>
 
         <div className="vacunas-filtros">

@@ -66,6 +66,7 @@ const seleccionarPerfil = useSeleccionarPerfil();
 
     fetch(`http://localhost:3333/api/vacunas/${id}?perfilId=${perfilIdLocal}`, {
       method: "DELETE",
+      headers: { Authorization: `Bearer ${userApp.token}` },
     })
       .then(() => obtenerVacunas(perfilIdLocal))
       .catch(() => console.log("Error al eliminar vacuna"));

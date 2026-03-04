@@ -9,12 +9,18 @@ export async function getPerfilesByUser(userId) {
   await client.connect();
   return perfiles.find({ miembros: new ObjectId(userId) }).toArray();
 }
-
-export async function createPerfil({ nombre }, userId) {
+export async function createPerfil(data, userId) {
   await client.connect();
 
   const doc = {
-    nombre,
+    nombre: (data.nombre || "").trim(),
+    apellido: (data.apellido || "").trim(),
+    fechaNacimiento: data.fechaNacimiento || null,
+    dni: data.dni ? String(data.dni).trim() : null,
+    grupoSanguineo: data.grupoSanguineo || null,
+    factor: data.factor || null,
+    telefono: data.telefono ? String(data.telefono).trim() : null,
+
     ownerId: new ObjectId(userId),
     miembros: [new ObjectId(userId)],
     createdAt: new Date(),

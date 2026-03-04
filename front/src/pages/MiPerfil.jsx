@@ -137,7 +137,7 @@ export default function MiPerfil() {
           )} */}
         </div>
 
-        {/* Acciones */}
+        {/* Acciones */} 
         <div
           style={{
             display: "flex",

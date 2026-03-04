@@ -1,92 +1,139 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useToken } from "../context/SessionContext";
 
 const VacunasDetalle = () => {
-const { id } = useParams();
-const [vacuna, setVacuna] = useState(null);
-const token = useToken();          
-const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-useEffect(() => {
-if (!id) {
-    console.error("No llegó el id en useParams");
-    return;
-}
+  const token = useToken();
+  const [vacuna, setVacuna] = useState(null);
+  const [error, setError] = useState("");
 
-const url = `http://localhost:3333/api/vacunas/${id}`;
-console.log("URL detalle vacuna:", url);
-console.log("TOKEN:", token);
+  const apiBase = "http://localhost:3333";
 
-fetch(url, {
-    method: "GET",
-    headers: {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + (token ?? ""),
-    },
-})
-    .then((res) => res.json())
-    .then((data) => setVacuna(data))
-    .catch((error) => console.error("Error en detalle:", error));
-}, [id, token]); 
+  // ✅ perfilId SOLO si viene explícito en la URL (cuando entrás desde "Mis Vacunas")
+  const perfilId = useMemo(() => searchParams.get("perfilId") || "", [searchParams]);
 
-if (!vacuna) return <p className="loading">Cargando...</p>;
+  const imagenSrc = useMemo(() => {
+    if (!vacuna?.imagen) return "";
+    if (vacuna.imagen.startsWith("http")) return vacuna.imagen;
+    return `${apiBase}${vacuna.imagen}`;
+  }, [vacuna]);
 
-return (
-<main className="card detalle-container">
-    <div className="volver-wrapper">
-    <button className="volver-btn" onClick={() => navigate(-1)}>
-        ← Volver
-    </button>
-    </div>
+  const edadTexto = useMemo(() => {
+    const e = vacuna?.edad_aplicacion;
+    if (!e) return "—";
+    if (Array.isArray(e)) return e.join(", ");
+    return String(e);
+  }, [vacuna]);
 
-    <div className="detalle-card-grid">
-    <div className="detalle-img-col">
-        <img
-        src={`http://localhost:3333${vacuna.imagen}`}
-        alt={vacuna.nombre}
-        className="detalle-img"
-        />
-    </div>
+  useEffect(() => {
+    if (!id) return;
 
-    <div className="detalle-info-col">
-        <h2 className="detalle-title">{vacuna.nombre}</h2>
+    // Tu back tiene tokenValidate en GET /api/vacunas/:id → necesitás token sí o sí
+    if (!token) {
+      setError("No hay sesión activa (token). Volvé a loguearte.");
+      return;
+    }
 
-        <p className="detalle-text">
-        <strong>Previene:</strong> {vacuna.previene}
-        </p>
+    // ✅ si hay perfilId, lo mandamos. Si no hay, NO lo mandamos (detalle de catálogo)
+    const url = perfilId
+      ? `${apiBase}/api/vacunas/${id}?perfilId=${perfilId}`
+      : `${apiBase}/api/vacunas/${id}`;
 
-        <p className="detalle-text">
-        <strong>Edad de aplicación:</strong>{" "}
-        {vacuna.edad_aplicacion?.join(", ")}
-        </p>
+    console.log("URL detalle vacuna:", url);
 
-        <p className="detalle-text">
-        <strong>Dosis:</strong> {vacuna.dosis}
-        </p>
+    setError("");
+    setVacuna(null);
 
-        <p className="detalle-text">
-        <strong>Grupo etario:</strong> {vacuna.grupo}
-        </p>
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data?.error || `Error ${res.status}`);
+        return data;
+      })
+      .then(setVacuna)
+      .catch((err) => setError(err.message || "Error al obtener detalle"));
+  }, [id, token, perfilId]);
 
-        <p className="detalle-text">
-        <strong>Obligatoria:</strong> {vacuna.obligatoria ? "Sí" : "No"}
-        </p>
+  if (error) {
+    return (
+      <main className="card detalle-container">
+        <div className="volver-wrapper">
+          <button className="volver-btn" onClick={() => navigate(-1)}>
+            ← Volver
+          </button>
+        </div>
+        <p style={{ color: "#b00020", fontWeight: 700 }}>{error}</p>
+      </main>
+    );
+  }
 
-        {vacuna.link && (
-        <a
-            href={vacuna.link}
-            target="_blank"
-            rel="noreferrer"
-            className="detalle-btn"
-        >
-            Información oficial
-        </a>
-        )}
-    </div>
-    </div>
-</main>
-);
+  if (!vacuna) return <p className="loading">Cargando...</p>;
+
+  return (
+    <main className="card detalle-container">
+      <div className="volver-wrapper">
+        <button className="volver-btn" onClick={() => navigate(-1)}>
+          ← Volver
+        </button>
+      </div>
+
+      <div className="detalle-card-grid">
+        <div className="detalle-img-col">
+          {vacuna.imagen ? (
+            <img
+              src={imagenSrc}
+              alt={vacuna.nombre || "Vacuna"}
+              className="detalle-img"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          ) : (
+            <p style={{ opacity: 0.7 }}>Sin imagen</p>
+          )}
+        </div>
+
+        <div className="detalle-info-col">
+          <h2 className="detalle-title">{vacuna.nombre}</h2>
+
+          <p className="detalle-text">
+            <strong>Previene:</strong> {vacuna.previene || "—"}
+          </p>
+
+          <p className="detalle-text">
+            <strong>Edad de aplicación:</strong> {edadTexto}
+          </p>
+
+          <p className="detalle-text">
+            <strong>Dosis:</strong> {vacuna.dosis || "—"}
+          </p>
+
+          <p className="detalle-text">
+            <strong>Grupo etario:</strong> {vacuna.grupo || "—"}
+          </p>
+
+          <p className="detalle-text">
+            <strong>Obligatoria:</strong> {vacuna.obligatoria ? "Sí" : "No"}
+          </p>
+
+          {vacuna.link && (
+            <a href={vacuna.link} target="_blank" rel="noreferrer" className="detalle-btn">
+              Información oficial
+            </a>
+          )}
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default VacunasDetalle;

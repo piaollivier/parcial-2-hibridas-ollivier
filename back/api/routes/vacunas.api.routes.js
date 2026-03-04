@@ -1,21 +1,24 @@
 import express from "express";
 import * as controllers from "../controllers/vacunas.api.controller.js";
+import { tokenValidate } from "../../middleware/tokenValidate.js";
 
 import { vacunasValidate } from "../../middleware/vacunasValidate.js";
 import { vacunasValidatePatch } from "../../middleware/vacunasValidatePatch.js";
 
 const route = express.Router();
 
+// ✅ catálogo público (si querés dejarlo público)
 route.get("/", controllers.getVacunas);
 
-route.get("/:id", controllers.getVacunasById);
+// ✅ operaciones con auth (porque son "mis vacunas" por perfil)
+route.get("/:id", tokenValidate, controllers.getVacunasById);
 
-route.post("/", vacunasValidate, controllers.crearVacuna);
+route.post("/", tokenValidate, vacunasValidate, controllers.crearVacuna);
 
-route.put("/:id", vacunasValidate, controllers.reemplazarVacuna);
+route.put("/:id", tokenValidate, vacunasValidate, controllers.reemplazarVacuna);
 
-route.patch("/:id", vacunasValidatePatch, controllers.editarVacunaParcial);
+route.patch("/:id", tokenValidate, vacunasValidatePatch, controllers.editarVacunaParcial);
 
-route.delete("/:id", controllers.deleteVacunaLogico);
+route.delete("/:id", tokenValidate, controllers.deleteVacunaLogico);
 
 export default route;
