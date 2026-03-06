@@ -7,8 +7,8 @@
 header {
     margin-bottom: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #1d2c3b75; /* Color de fondo oscuro */
-    color: #f8f9fa; /* Color de texto claro */
+    background-color: #1d2c3b75; 
+    color: #f8f9fa; 
 }
 nav {
     padding: 30px 20px !important;
@@ -21,9 +21,9 @@ nav a{
     letter-spacing: 1px;
 }
 nav a:hover {
-  color: #fff8e486 !important; /* amarillo en hover */
+  color: #fff8e486 !important; 
   text-decoration: underline;
-  text-underline-offset: 4px; /* separa la línea del texto */
+  text-underline-offset: 4px; 
 }
 
 
@@ -42,5 +42,4 @@ nav a:hover {
 
 .dashboard-cards .card:hover img {
     filter: grayscale(0%);
-    /* la imagen pasa a color en hover */
 }

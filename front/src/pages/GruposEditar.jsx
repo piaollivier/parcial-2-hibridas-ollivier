@@ -8,7 +8,6 @@ const GruposEditar = () => {
   const [nombre, setNombre] = useState("");
   const [error, setError] = useState("");
 
-  // 1) Cargar datos actuales del grupo
   useEffect(() => {
     fetch(`http://localhost:3333/api/grupos/${id}`)
       .then((res) => {
@@ -21,7 +20,6 @@ const GruposEditar = () => {
       .catch(() => setError("Error al cargar grupo"));
   }, [id]);
 
-  // 2) Guardar cambios (ACA VA EL PUT)
   const handleSubmit = (e) => {
     e.preventDefault();
 

@@ -8,7 +8,6 @@ const MisVacunasEditar = () => {
   const location = useLocation();
   const { userApp } = useUsuario();
 
-  // ✅ leer perfilId del querystring
   const perfilId = new URLSearchParams(location.search).get("perfilId");
 
   const [form, setForm] = useState({
@@ -25,7 +24,6 @@ const MisVacunasEditar = () => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ cargar grupos
   useEffect(() => {
     fetch("http://localhost:3333/api/grupos")
       .then((res) => res.json())
@@ -33,7 +31,6 @@ const MisVacunasEditar = () => {
       .catch(() => console.log("Error obteniendo grupos"));
   }, []);
 
-  // ✅ cargar vacuna (por perfilId)
   useEffect(() => {
     if (!userApp?.token) return;
 
@@ -81,7 +78,6 @@ const MisVacunasEditar = () => {
     }));
   };
 
-  // ✅ guardar edición (por perfilId + token)
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");

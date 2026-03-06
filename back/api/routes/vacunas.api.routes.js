@@ -7,10 +7,8 @@ import { vacunasValidatePatch } from "../../middleware/vacunasValidatePatch.js";
 
 const route = express.Router();
 
-// ✅ catálogo público (si querés dejarlo público)
 route.get("/", controllers.getVacunas);
 
-// ✅ operaciones con auth (porque son "mis vacunas" por perfil)
 route.get("/:id", tokenValidate, controllers.getVacunasById);
 
 route.post("/", tokenValidate, vacunasValidate, controllers.crearVacuna);

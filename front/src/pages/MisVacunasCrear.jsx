@@ -105,20 +105,17 @@ const MisVacunasCrear = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // ✅ debe existir perfil activo
     if (!perfilActivo?._id) {
       alert("Primero seleccioná un perfil en Mis Vacunas.");
       navigate("/mis-vacunas");
       return;
     }
 
-    // ✅ validación modo catálogo
     if (modo === "catalogo" && !catalogoId) {
       alert("Seleccioná una vacuna del catálogo.");
       return;
     }
 
-    // ✅ validación mínima
     if (!form.grupo) {
       alert("Seleccioná un grupo.");
       return;
@@ -129,8 +126,7 @@ const MisVacunasCrear = () => {
       edad_aplicacion: Array.isArray(form.edad_aplicacion)
         ? form.edad_aplicacion.join(", ")
         : String(form.edad_aplicacion || ""),
-      perfilId: perfilActivo._id, // ✅ clave del final
-      // userId: userApp?._id,     // ❌ ya no hace falta si trabajás por perfil
+      perfilId: perfilActivo._id, 
     };
 
     fetch("http://localhost:3333/api/vacunas", {
@@ -145,7 +141,6 @@ const MisVacunasCrear = () => {
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
-          console.log("❌ ERROR BACK FULL >>>", data);
           throw new Error(
             data?.error ||
               data?.message?.[0] ||
@@ -167,7 +162,6 @@ const MisVacunasCrear = () => {
       <div className="card-auth">
         <h1 className="card-auth__title">Cargar vacuna</h1>
 
-        {/* ✅ Aviso de perfil activo */}
         <p style={{ marginTop: 6, marginBottom: 18, opacity: 0.85 }}>
           Perfil activo:{" "}
           <strong style={{ color: "#1e3a5f" }}>

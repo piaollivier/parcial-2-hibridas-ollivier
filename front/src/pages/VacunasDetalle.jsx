@@ -13,7 +13,6 @@ const VacunasDetalle = () => {
 
   const apiBase = "http://localhost:3333";
 
-  // ✅ perfilId SOLO si viene explícito en la URL (cuando entrás desde "Mis Vacunas")
   const perfilId = useMemo(() => searchParams.get("perfilId") || "", [searchParams]);
 
   const edadTexto = useMemo(() => {
@@ -26,13 +25,11 @@ const VacunasDetalle = () => {
   useEffect(() => {
     if (!id) return;
 
-    // Tu back tiene tokenValidate en GET /api/vacunas/:id → necesitás token sí o sí
     if (!token) {
       setError("No hay sesión activa (token). Volvé a loguearte.");
       return;
     }
 
-    // ✅ si hay perfilId, lo mandamos. Si no hay, NO lo mandamos (detalle de catálogo)
     const url = perfilId
       ? `${apiBase}/api/vacunas/${id}?perfilId=${perfilId}`
       : `${apiBase}/api/vacunas/${id}`;

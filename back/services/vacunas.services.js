@@ -10,11 +10,9 @@ const vacunas = db.collection("vacunas");
 function normalizeQuery(query = {}) {
   const q = { ...query };
 
-  // ✅ soportar perfilId como ObjectId
   if (q.perfilId) q.perfilId = new ObjectId(q.perfilId);
 
-  // ✅ userId lo dejás como string porque hoy lo guardás como string
-  // (si algún día lo querés ObjectId, ahí lo migramos)
+
   return q;
 }
 
@@ -24,15 +22,7 @@ export async function getVacunas(query = {}) {
   return vacunas.find(q).toArray();
 }
 
-// export async function getVacunasById(id, userId, perfilId) {
-//   await client.connect();
 
-//   const filter = { _id: new ObjectId(id) };
-//   if (perfilId) filter.perfilId = new ObjectId(perfilId);
-//   else if (userId) filter.userId = userId;
-
-//   return vacunas.findOne(filter);
-// }
 
 export async function getVacunasById(id, userId, perfilId) {
   await client.connect();
@@ -40,7 +30,7 @@ export async function getVacunasById(id, userId, perfilId) {
   const filter = { _id: new ObjectId(id) };
 
   if (perfilId) filter.perfilId = new ObjectId(perfilId);
-  else if (userId) filter.userId = userId; // solo para compatibilidad vieja
+  else if (userId) filter.userId = userId; 
 
   return vacunas.findOne(filter);
 }

@@ -30,10 +30,10 @@ export async function getPerfilesByUser(userId) {
         $addFields: {
           ownerUsername: "$owner.username",
           ownerEmail: "$owner.email",
-          ownerNombre: "$owner.nombre", // ✅ si lo tenés en userApps
+          ownerNombre: "$owner.nombre", 
         },
       },
-      { $project: { owner: 0 } }, // opcional: sacamos el objeto owner completo
+      { $project: { owner: 0 } }, 
     ])
     .toArray();
 
@@ -76,7 +76,6 @@ export async function getPerfilById(id, userId) {
 
   if (!perfil) return null;
 
-  // buscar usuarios miembros
   const miembrosUsuarios = await userApps
     .find(
       { _id: { $in: perfil.miembros } },
@@ -121,7 +120,6 @@ export async function updatePerfil(id, data, userId) {
 export async function deletePerfil(id, userId) {
   await client.connect();
 
-  // Solo owner puede borrar
   const perfil = await perfiles.findOne({
     _id: new ObjectId(id),
     ownerId: new ObjectId(userId),
@@ -135,7 +133,6 @@ export async function deletePerfil(id, userId) {
 export async function invitarPerfil(id, email, userId) {
   await client.connect();
 
-  // Solo owner invita (podés flexibilizar luego)
   const perfil = await perfiles.findOne({
     _id: new ObjectId(id),
     ownerId: new ObjectId(userId),
@@ -186,7 +183,7 @@ export async function getPerfilesCompartidosConmigo(userId) {
           ownerEmail: "$owner.email",
         },
       },
-      { $project: { owner: 0 } }, // sacamos el objeto owner completo (opcional)
+      { $project: { owner: 0 } }, 
     ])
     .toArray();
 

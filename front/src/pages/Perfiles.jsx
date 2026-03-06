@@ -9,7 +9,6 @@ export default function Perfiles() {
   const [listaPerfiles, setListaPerfiles] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  // ✅ form completo crear perfil (lo dejás por si lo usás después)
   const [formularioPerfil, setFormularioPerfil] = useState({
     nombre: "",
     apellido: "",
@@ -22,7 +21,6 @@ export default function Perfiles() {
 
   const [mensajeError, setMensajeError] = useState("");
 
-  // ✅ compartir
   const [idPerfilCompartirAbierto, setIdPerfilCompartirAbierto] = useState(null);
   const [emailPorPerfilId, setEmailPorPerfilId] = useState({});
   const [mensajePorPerfilId, setMensajePorPerfilId] = useState({});
@@ -64,7 +62,6 @@ export default function Perfiles() {
 
   useEffect(() => {
     traerPerfiles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userApp?.token]);
 
   const cuandoCambiaInput = (e) => {
@@ -119,7 +116,6 @@ export default function Perfiles() {
 
   const esDueno = (perfil) => String(perfil.ownerId) === String(userApp?._id);
 
-  // ✅ separar en 2 listas
   const perfilesMios = useMemo(() => {
     return listaPerfiles.filter((p) => esDueno(p));
   }, [listaPerfiles, userApp?._id]);
@@ -128,7 +124,6 @@ export default function Perfiles() {
     return listaPerfiles.filter((p) => !esDueno(p));
   }, [listaPerfiles, userApp?._id]);
 
-  // ✅ quién lo compartió (depende del back, ponemos fallback)
   const nombreDeQuienComparte = (perfil) => {
     return (
       perfil?.ownerNombre ||
@@ -172,7 +167,7 @@ export default function Perfiles() {
 
       setMensajePorPerfilId((prev) => ({
         ...prev,
-        [perfilId]: { type: "ok", text: "✅ Invitación enviada." },
+        [perfilId]: { type: "ok", text: "Invitación enviada." },
       }));
 
       setEmailPorPerfilId((prev) => ({ ...prev, [perfilId]: "" }));
@@ -202,7 +197,7 @@ export default function Perfiles() {
       const datos = await respuesta.json().catch(() => ({}));
       if (!respuesta.ok) throw new Error(datos?.error || "No se pudo eliminar el perfil");
 
-      alert("Perfil eliminado con éxito ✅");
+      alert("Perfil eliminado con éxito");
       await traerPerfiles();
     } catch (err) {
       alert(err?.message || "No se pudo eliminar el perfil");
@@ -223,7 +218,6 @@ export default function Perfiles() {
   return (
     <main className="mis-vacunas-crear">
       <div className="card-auth">
-        {/* ✅ Título + botón */}
         <div
           style={{
             display: "flex",
@@ -251,14 +245,12 @@ export default function Perfiles() {
           </p>
         )}
 
-        {/* ✅ Lista */}
         {cargando ? (
           <p>Cargando perfiles...</p>
         ) : listaPerfiles.length === 0 ? (
           <p>No hay perfiles todavía.</p>
         ) : (
           <>
-            {/* ===== MIS PERFILES ===== */}
             <h2 style={{ margin: "10px 0 12px", fontSize: 18, opacity: 0.9 }}>
               Mis perfiles
             </h2>
@@ -331,7 +323,6 @@ export default function Perfiles() {
                       </div>
                     </div>
 
-                    {/* ✅ Panel compartir */}
                     {idPerfilCompartirAbierto === perfil._id && (
                       <div style={{ marginTop: 14 }}>
                         <label style={{ display: "grid", gap: 8 }}>
@@ -349,7 +340,7 @@ export default function Perfiles() {
                             />
                             <button
                               type="button"
-                              className="btn-primary-auth"
+                              className="btn-editar"
                               onClick={() => enviarInvitacion(perfil._id)}
                               disabled={estaEnviandoInvitacion}
                               style={{ whiteSpace: "nowrap" }}
@@ -380,7 +371,6 @@ export default function Perfiles() {
               </ul>
             )}
 
-            {/* ===== COMPARTIDOS CONMIGO ===== */}
             <h2 style={{ margin: "22px 0 12px", fontSize: 18, opacity: 0.9 }}>
               Compartidos conmigo
             </h2>
@@ -401,9 +391,6 @@ export default function Perfiles() {
                       }}
                     >
                       <div>
-                        {/* <h3 style={{ marginBottom: 6 }}>
-                          {perfil.nombre} {perfil.apellido ? perfil.apellido : ""}
-                        </h3> */}
                         <div className="perfil-header">
                           <img
                             src={perfil.avatar}
@@ -454,7 +441,7 @@ export default function Perfiles() {
         )}
 
         <div style={{ marginTop: 18 }}>
-          <button className="boton" onClick={() => navegar(-1)}>
+          <button className="btn-editar" onClick={() => navegar(-1)}>
             Volver
           </button>
         </div>

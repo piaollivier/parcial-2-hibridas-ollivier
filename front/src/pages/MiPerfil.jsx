@@ -136,15 +136,15 @@ export default function MiPerfil() {
 
         <div className="perfil-acciones-principales">
 
-          <button className="boton" onClick={() => navigate("/mis-vacunas")}>
+          <button className="btn-editar" onClick={() => navigate("/mis-vacunas")}>
             Ver mis vacunas
           </button>
 
-          <button className="boton" onClick={() => navigate("/perfiles")}>
+          <button className="btn-editar" onClick={() => navigate("/perfiles")}>
             Ver perfiles
           </button>
 
-          <button className="boton" onClick={() => navigate("/perfiles/nuevo")}>
+          <button className="btn-editar" onClick={() => navigate("/perfiles/nuevo")}>
             Crear nuevo perfil
           </button>
 
@@ -243,7 +243,7 @@ export default function MiPerfil() {
         </div>
 
         <div className="perfil-volver">
-          <button className="boton" onClick={() => navigate("/")}>
+          <button className="btn-editar" onClick={() => navigate("/")}>
             Volver
           </button>
         </div>

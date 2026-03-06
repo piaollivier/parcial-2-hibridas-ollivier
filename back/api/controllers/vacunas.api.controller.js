@@ -5,7 +5,6 @@ const client = new MongoClient("mongodb+srv://admin:admin@hibridas.qaozghl.mongo
 const db = client.db("AH20232CP1");
 const perfiles = db.collection("perfiles");
 
-// ✅ helper: valida si el user logueado es miembro del perfil
 async function validarAccesoPerfil(perfilId, userId) {
   if (!perfilId) return false;
 
@@ -30,7 +29,6 @@ export async function getVacunas(req, res) {
       delete query.edad;
     }
 
-    // ✅ si viene perfilId lo convierte a ObjectId en el service (ya lo tenés)
     const vacunas = await service.getVacunas(query);
     res.json(vacunas);
   } catch {
@@ -38,44 +36,23 @@ export async function getVacunas(req, res) {
   }
 }
 
-// export async function getVacunasById(req, res) {
-//   try {
-//     const id = req.params.id;
-//     const perfilId = req.query.perfilId;
-//     const userId = req.user?._id; 
-//     if (perfilId) {
-//       const ok = await validarAccesoPerfil(perfilId, userId);
-//       if (!ok) return res.status(403).json({ error: "No tenés acceso a este perfil" });
-//     }
 
-//     const vacuna = await service.getVacunasById(id, userId, perfilId);
-
-//     if (!vacuna) return res.status(404).json({ error: "No encontrada" });
-
-//     res.json(vacuna);
-//   } catch (e) {
-//     console.log(e);
-//     res.status(500).json({ error: "Error interno" });
-//   }
-// }
 export async function getVacunasById(req, res) {
   try {
     const id = req.params.id;
     const perfilId = req.query.perfilId;
-    const userId = req.user?._id; // viene del token
+    const userId = req.user?._id; 
 
-    // ✅ si viene perfilId, validar acceso
     if (perfilId) {
       const ok = await validarAccesoPerfil(perfilId, userId);
       if (!ok) return res.status(403).json({ error: "No tenés acceso a este perfil" });
 
-      const vacuna = await service.getVacunasById(id, null, perfilId); // ✅ por perfil
+      const vacuna = await service.getVacunasById(id, null, perfilId); 
       if (!vacuna) return res.status(404).json({ error: "No encontrada" });
       return res.json(vacuna);
     }
 
-    // ✅ catálogo: NO filtrar por userId
-    const vacuna = await service.getVacunasById(id, null, null); // ✅ solo por _id
+    const vacuna = await service.getVacunasById(id, null, null); 
     if (!vacuna) return res.status(404).json({ error: "No encontrada" });
 
     res.json(vacuna);
@@ -92,12 +69,10 @@ export async function crearVacuna(req, res) {
       fecha_colocacion: req.body.fecha_colocacion || null,
     };
 
-    // ✅ Si te llega perfilId, lo guardamos como ObjectId
     if (req.body.perfilId) {
       vacuna.perfilId = new ObjectId(req.body.perfilId);
       delete vacuna.userId;
     } else {
-      // compatibilidad vieja
       vacuna.userId = req.body.userId;
     }
 
@@ -113,15 +88,13 @@ export async function reemplazarVacuna(req, res) {
   try {
     const id = req.params.id;
     const perfilId = req.query.perfilId;
-    const userId = req.user?._id; // 👈 del token (owner o miembro)
+    const userId = req.user?._id; 
 
-    // ✅ si editás por perfil, validar acceso por miembros
     if (perfilId) {
       const ok = await validarAccesoPerfil(perfilId, userId);
       if (!ok) return res.status(403).json({ error: "No tenés acceso a este perfil" });
     }
 
-    // ✅ UPDATE PARCIAL: solo campos editables
     const datos = {
       nombre: req.body.nombre,
       previene: req.body.previene,
@@ -132,7 +105,6 @@ export async function reemplazarVacuna(req, res) {
       fecha_colocacion: req.body.fecha_colocacion || null,
     };
 
-    // ✅ editar por perfil si viene perfilId, sino compatibilidad por userId
     const editada = await service.editarVacunaParcial(
       id,
       userId,
@@ -140,7 +112,6 @@ export async function reemplazarVacuna(req, res) {
       datos
     );
 
-    // tu service devuelve `result` (no siempre .value). Lo normalizamos:
     const value = editada?.value ?? editada;
 
     if (!value) return res.status(404).json({ error: "No encontrada" });

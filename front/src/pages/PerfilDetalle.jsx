@@ -178,7 +178,7 @@ async function dejarDeCompartir(emailAQuitar) {
                 {perfil.nombre || "—"} {perfil.apellido || ""}
               </h2>
 
-              <p className="perfil-owner">
+              {/* <p className="perfil-owner">
                 {esCompartido ? (
                   <>
                     <strong>Compartido por:</strong>{" "}
@@ -187,7 +187,7 @@ async function dejarDeCompartir(emailAQuitar) {
                 ) : (
                   <strong>Creado por vos</strong>
                 )}
-              </p>
+              </p> */}
             </div>
 
             <div className="perfil-datos perfil-datos-detalle">

@@ -8,15 +8,16 @@ import {
 
 export default function MisVacunas() {
   const { userApp } = useUsuario();
-
-const perfilActivo = usePerfilActivo();
-const seleccionarPerfil = useSeleccionarPerfil();
+  const perfilActivo = usePerfilActivo();
+  const seleccionarPerfil = useSeleccionarPerfil();
 
   const [perfiles, setPerfiles] = useState([]);
   const [perfilIdLocal, setPerfilIdLocal] = useState(perfilActivo?._id || "");
   const [vacunas, setVacunas] = useState([]);
 
-  const avatarUrl = `https://api.dicebear.com/7.x/adventurer/svg?seed=${userApp?.username || userApp?.email}`;
+  const avatarUrl = `https://api.dicebear.com/7.x/adventurer/svg?seed=${
+    userApp?.username || userApp?.email
+  }`;
 
   useEffect(() => {
     if (!userApp?.token) return;
@@ -30,7 +31,12 @@ const seleccionarPerfil = useSeleccionarPerfil();
   }, [userApp?.token]);
 
   useEffect(() => {
-    if (perfilActivo?._id) setPerfilIdLocal(perfilActivo._id);
+    if (perfilActivo?._id) {
+      setPerfilIdLocal(perfilActivo._id);
+    } else {
+      setPerfilIdLocal("");
+      setVacunas([]);
+    }
   }, [perfilActivo?._id]);
 
   const obtenerVacunas = (perfilId) => {
@@ -45,7 +51,10 @@ const seleccionarPerfil = useSeleccionarPerfil();
         const activas = (Array.isArray(data) ? data : []).filter((v) => !v.deleted);
         setVacunas(activas);
       })
-      .catch(() => console.log("Error al obtener vacunas del perfil"));
+      .catch(() => {
+        setVacunas([]);
+        console.log("Error al obtener vacunas del perfil");
+      });
   };
 
   useEffect(() => {
@@ -55,6 +64,12 @@ const seleccionarPerfil = useSeleccionarPerfil();
   const onChangePerfil = (e) => {
     const id = e.target.value;
     setPerfilIdLocal(id);
+
+    if (!id) {
+      setVacunas([]);
+      seleccionarPerfil(null);
+      return;
+    }
 
     const perfil = perfiles.find((p) => p._id === id);
     if (perfil) seleccionarPerfil(perfil);
@@ -133,7 +148,13 @@ const seleccionarPerfil = useSeleccionarPerfil();
           </label>
         </div>
 
-        <div style={{ margin: "18px 0", display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            margin: "18px 0",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Link
             to="/mis-vacunas/nueva"
             style={{
@@ -164,11 +185,21 @@ const seleccionarPerfil = useSeleccionarPerfil();
           {vacunas.map((v) => (
             <li key={v._id} className="vacuna-item">
               <h3>{v.nombre}</h3>
-              <p><strong>Previene:</strong> {v.previene}</p>
-              <p><strong>Edad:</strong> {v.edad_aplicacion}</p>
-              <p><strong>Dosis:</strong> {v.dosis}</p>
-              <p><strong>Grupo:</strong> {v.grupo}</p>
-              <p><strong>Obligatoria:</strong> {v.obligatoria ? "Sí" : "No"}</p>
+              <p>
+                <strong>Previene:</strong> {v.previene}
+              </p>
+              <p>
+                <strong>Edad:</strong> {v.edad_aplicacion}
+              </p>
+              <p>
+                <strong>Dosis:</strong> {v.dosis}
+              </p>
+              <p>
+                <strong>Grupo:</strong> {v.grupo}
+              </p>
+              <p>
+                <strong>Obligatoria:</strong> {v.obligatoria ? "Sí" : "No"}
+              </p>
 
               <div className="btns d-flex justify-content-space-between">
                 <button onClick={() => eliminarVacuna(v._id)} className="btn-borrar">

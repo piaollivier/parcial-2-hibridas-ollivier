@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const SessionContext = createContext();
 
@@ -50,6 +50,9 @@ export function SessionProvider({ children }) {
     () => JSON.parse(localStorage.getItem("token")) || null
   );
 
+  const [perfilActivo, setPerfilActivo] = useState(
+    () => JSON.parse(localStorage.getItem("perfilActivo")) || null
+  );
 
   const onLogin = (user) => {
     const payload = JSON.parse(atob(user.token.split(".")[1]));
@@ -71,16 +74,20 @@ export function SessionProvider({ children }) {
   const onLogout = () => {
     setUserApp(null);
     setToken(null);
+    setPerfilActivo(null);
+
     localStorage.removeItem("session");
     localStorage.removeItem("token");
+    localStorage.removeItem("perfilActivo");
   };
 
-
-  const [perfilActivo, setPerfilActivo] = useState(
-    JSON.parse(localStorage.getItem("perfilActivo")) || null
-  );
-
   const seleccionarPerfil = (perfil) => {
+    if (!perfil) {
+      setPerfilActivo(null);
+      localStorage.removeItem("perfilActivo");
+      return;
+    }
+
     setPerfilActivo(perfil);
     localStorage.setItem("perfilActivo", JSON.stringify(perfil));
   };
@@ -90,10 +97,19 @@ export function SessionProvider({ children }) {
     localStorage.removeItem("perfilActivo");
   };
 
-
   return (
     <SessionContext.Provider
-      value={{ userApp, setUserApp, token, setToken, onLogin, onLogout, perfilActivo, seleccionarPerfil, limpiarPerfil }}
+      value={{
+        userApp,
+        setUserApp,
+        token,
+        setToken,
+        onLogin,
+        onLogout,
+        perfilActivo,
+        seleccionarPerfil,
+        limpiarPerfil,
+      }}
     >
       {children}
     </SessionContext.Provider>
