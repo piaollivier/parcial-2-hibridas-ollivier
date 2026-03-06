@@ -53,9 +53,7 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="home-tip">
-            Tip: desde <strong>Perfiles</strong> podés crear miembros (hijos/familia) y registrar vacunas para cada uno.
-          </p>
+
         </section>
 
         <section className="card-auth home-section">
@@ -65,21 +63,26 @@ export default function Home() {
 
           <div className="home-grid-benefits">
             <div className="home-card-soft">
-              <h3 className="home-card-title">Consultar</h3>
+              {/* <h3 className="home-card-title">Consultar</h3> */}
+              <img src="/img/consultar.png" alt="imagen representativa de consultar" style={{width: 250}}/>
               <p>
                 Accedé al calendario y encontrá vacunas por nombre, dosis, edad y prevención.
               </p>
             </div>
 
             <div className="home-card-soft">
-              <h3 className="home-card-title">Registrar</h3>
+              {/* <h3 className="home-card-title">Registrar</h3> */}
+              <img src="/img/registrar.png" alt="imagen representativa de registrar" style={{width: 250}}/>
+
               <p>
                 Guardá tus vacunas aplicadas con fecha, dosis e imagen para tener el historial completo.
               </p>
             </div>
 
             <div className="home-card-soft">
-              <h3 className="home-card-title">Organizar</h3>
+              {/* <h3 className="home-card-title">Organizar</h3> */}
+              <img src="/img/organizar.png" alt="imagen representativa de organizar" style={{width: 250}}/>
+
               <p>
                 Usá perfiles para separar la información por persona y mantener todo claro y ordenado.
               </p>
@@ -127,8 +130,8 @@ export default function Home() {
               Ir a Mis Vacunas
             </Link>
 
-            <Link to="/grupos" className="btn-primary-auth btn-small">
-              Ver Grupos
+            <Link to="/mis-vacunas/nueva" className="btn-primary-auth btn-small">
+              Registrar Nueva Vacuna
             </Link>
           </div>
         </section>

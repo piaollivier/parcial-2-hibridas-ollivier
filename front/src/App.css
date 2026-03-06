@@ -256,6 +256,287 @@ main{
   }
 }
 
+.perfil-subtitulo{
+text-align:center;
+opacity:.75;
+margin-top:-6px;
+margin-bottom:18px;
+}
+
+.perfil-usuario-card{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:12px;
+text-align:center;
+background:linear-gradient(135deg,#f5f7fa,#e4ecf5);
+border-radius:16px;
+padding:24px;
+margin-bottom:18px;
+}
+
+.perfil-avatar{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #1e3a5f;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.perfil-username{
+font-weight:700;
+font-size:1.5rem;
+text-transform:uppercase;
+color:#1e3a5f;
+letter-spacing:1px;
+}
+
+.perfil-datos p{
+margin:4px 0;
+}
+
+.perfil-resumen{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+width:100%;
+margin-top:8px;
+}
+
+.perfil-stat{
+background:rgba(255,255,255,.75);
+border-radius:12px;
+padding:12px;
+text-align:center;
+}
+
+.perfil-stat p{
+margin:0;
+font-size:.9rem;
+opacity:.8;
+}
+
+.perfil-stat span{
+display:block;
+margin-top:6px;
+font-size:1.3rem;
+font-weight:700;
+color:#1e3a5f;
+}
+
+.perfil-acciones-principales{
+display:flex;
+justify-content:center;
+gap:12px;
+margin-top:16px;
+flex-wrap:wrap;
+}
+
+.perfil-card{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+}
+
+.perfil-card-info h3{
+margin:0;
+}
+
+.perfil-apellido{
+margin:6px 0 0;
+opacity:.9;
+}
+
+.perfil-extra{
+margin:6px 0 0;
+opacity:.75;
+font-size:13px;
+}
+
+.perfil-tipo{
+margin:6px 0 0;
+opacity:.75;
+font-size:13px;
+}
+
+.perfil-listado{
+margin-top:22px;
+}
+
+.perfil-listado-titulo{
+font-weight:800;
+margin-bottom:6px;
+}
+
+.perfil-acciones{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
+}
+
+.perfil-volver{
+display:flex;
+justify-content:flex-start;
+margin-top:18px;
+}
+
+.perfil-error{
+color:#b00020;
+font-weight:600;
+}
+/* AVATAR DE PERFIL  */
+
+.perfil-header{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.perfil-avatar{
+width:55px;
+height:55px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #1e3a5f;
+}
+
+.perfil-nombre{
+margin:0;
+}
+
+/* .perfil-apellido{
+margin:2px 0 0;
+opacity:.8;
+font-size:.9rem;
+} */
+
+/* PERFIL DETALLE  */
+
+.perfil-detalle-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.perfil-detalle-titulo {
+  margin: 0;
+  text-align: left;
+}
+
+.perfil-detalle-mensaje {
+  margin-top: 18px;
+}
+
+.perfil-detalle-error {
+  color: #b00020;
+  font-weight: 700;
+}
+
+.perfil-header-card {
+  margin-top: 6px;
+  background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.perfil-avatar-grande {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #1e3a5f;
+  background: #fff;
+  margin-bottom: 12px;
+}
+
+.perfil-nombre {
+  margin: 0;
+  color: #1e3a5f;
+}
+
+.perfil-owner {
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+.perfil-datos-detalle {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.perfil-datos-detalle p {
+  margin: 6px 0;
+}
+
+.perfil-botones {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.perfil-compartido-box {
+  margin-top: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.perfil-compartido-titulo {
+  margin: 0 0 12px;
+  color: #1e3a5f;
+}
+
+.perfil-compartido-vacio {
+  margin: 0;
+  opacity: 0.75;
+}
+
+.perfil-compartido-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.perfil-compartido-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.perfil-compartido-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-compartido-nombre {
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.perfil-compartido-email {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
 .card {
   padding: 2em;
 }

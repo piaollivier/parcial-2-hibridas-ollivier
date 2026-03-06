@@ -43,6 +43,10 @@ export async function getPerfilesByUser(userId) {
 export async function createPerfil(data, userId) {
   await client.connect();
 
+  const avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(
+    data.nombre || "perfil"
+  )}`;
+
   const doc = {
     nombre: (data.nombre || "").trim(),
     apellido: (data.apellido || "").trim(),
@@ -51,6 +55,8 @@ export async function createPerfil(data, userId) {
     grupoSanguineo: data.grupoSanguineo || null,
     factor: data.factor || null,
     telefono: data.telefono ? String(data.telefono).trim() : null,
+
+    avatar, 
 
     ownerId: new ObjectId(userId),
     miembros: [new ObjectId(userId)],
@@ -187,3 +193,28 @@ export async function getPerfilesCompartidosConmigo(userId) {
   return data;
 }
 
+export async function dejarDeCompartirPerfil(id, email, userId) {
+  await client.connect();
+
+  const perfil = await perfiles.findOne({
+    _id: new ObjectId(id),
+    ownerId: new ObjectId(userId),
+  });
+
+  if (!perfil) {
+    throw new Error("Solo el creador puede modificar los accesos");
+  }
+
+  const usuario = await userApps.findOne({ email });
+
+  if (!usuario) {
+    throw new Error("Usuario no encontrado");
+  }
+
+  await perfiles.updateOne(
+    { _id: new ObjectId(id) },
+    { $pull: { miembros: usuario._id } }
+  );
+
+  return { ok: true };
+}

@@ -135,3 +135,19 @@ export async function getPerfilesCompartidos(req, res) {
     res.status(500).json({ error: "Error interno" });
   }
 }
+
+export async function dejarDeCompartir(req, res) {
+  try {
+    const { email } = req.body;
+
+    const r = await service.dejarDeCompartirPerfil(
+      req.params.id,
+      email,
+      req.user._id
+    );
+
+    res.json(r);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}

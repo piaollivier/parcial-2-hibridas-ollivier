@@ -17,16 +17,16 @@ export default function PerfilDetalle() {
     };
   }, [userApp?.token]);
 
-  // helpers
   const fmtFecha = (iso) => {
     if (!iso) return "—";
-    // si viene "YYYY-MM-DD"
+
     if (typeof iso === "string" && iso.length >= 10) {
       const y = iso.slice(0, 4);
       const m = iso.slice(5, 7);
       const d = iso.slice(8, 10);
       if (y && m && d) return `${d}/${m}/${y}`;
     }
+
     try {
       const dt = new Date(iso);
       if (isNaN(dt.getTime())) return String(iso);
@@ -41,9 +41,18 @@ export default function PerfilDetalle() {
     return String(perfil.ownerId) !== String(userApp._id);
   }, [perfil, userApp?._id]);
 
+  const avatarPerfil = useMemo(() => {
+    return (
+      perfil?.avatar ||
+      perfil?.avatarUrl ||
+      `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(
+        `${perfil?.nombre || "perfil"}-${perfil?.apellido || ""}`
+      )}`
+    );
+  }, [perfil]);
+
   useEffect(() => {
-    if (!userApp?.token) return;
-    if (!id) return;
+    if (!userApp?.token || !id) return;
 
     const cargar = async () => {
       setCargando(true);
@@ -72,17 +81,62 @@ export default function PerfilDetalle() {
     cargar();
   }, [id, userApp?.token, headersAuth]);
 
+async function dejarDeCompartir(emailAQuitar) {
+  if (!perfil?._id || !emailAQuitar) return;
+
+  try {
+    const res = await fetch(
+      `http://localhost:3333/api/perfiles/${perfil._id}/dejar-compartir`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userApp?.token}`,
+        },
+        body: JSON.stringify({ email: emailAQuitar }),
+      }
+    );
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      throw new Error(data?.error || "No se pudo dejar de compartir");
+    }
+
+    setPerfil((prev) => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        miembrosUsuarios: (prev.miembrosUsuarios || []).filter(
+          (u) => u.email !== emailAQuitar
+        ),
+      };
+    });
+  } catch (e) {
+    alert(e?.message || "No se pudo dejar de compartir");
+  }
+}
+
   if (!userApp) {
     return (
       <main className="mis-vacunas-crear">
         <div className="card-auth">
-          <h1 className="card-auth__title">Perfil</h1>
-          <p>No hay sesión activa. Por favor iniciá sesión.</p>
-          <div style={{ marginTop: 18 }}>
-            <button className="boton" onClick={() => navigate("/login")}>
+          <div className="perfil-detalle-top">
+            <h1 className="card-auth__title perfil-detalle-titulo">Perfil</h1>
+
+            <button
+              type="button"
+              className="btn-editar"
+              onClick={() => navigate("/login")}
+            >
               Ir a login
             </button>
           </div>
+
+          <p className="perfil-detalle-mensaje">
+            No hay sesión activa. Por favor iniciá sesión.
+          </p>
         </div>
       </main>
     );
@@ -91,56 +145,40 @@ export default function PerfilDetalle() {
   return (
     <main className="mis-vacunas-crear">
       <div className="card-auth">
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+        <div className="perfil-detalle-top">
+          <h1 className="card-auth__title perfil-detalle-titulo">
+            Detalle del perfil
+          </h1>
+
           <button
             type="button"
             className="btn-editar"
-            onClick={() => navegar(`/perfiles/${perfil._id}/editar`)}
-          >
-            Editar perfil
-          </button>
-
-          <button
-            type="button"
-            className="boton"
-            onClick={() => navegar(-1)}
+            onClick={() => navigate("/perfiles")}
           >
             Volver
           </button>
-
-          {perfil?._id && (
-            <button className="boton" onClick={() => navigate(`/mis-vacunas?perfilId=${perfil._id}`)}>
-              Ver vacunas
-            </button>
-          )}
         </div>
-
-        <h1 className="card-auth__title" style={{ marginTop: 16 }}>
-          Detalle del perfil
-        </h1>
 
         {cargando ? (
           <p>Cargando perfil...</p>
         ) : error ? (
-          <p style={{ color: "#b00020", fontWeight: 700 }}>{error}</p>
+          <p className="perfil-detalle-error">{error}</p>
         ) : !perfil ? (
           <p>No se encontró el perfil.</p>
         ) : (
           <>
-            {/* Encabezado */}
-            <div
-              style={{
-                marginTop: 14,
-                background: "linear-gradient(135deg, #f5f7fa, #e4ecf5)",
-                borderRadius: 16,
-                padding: 18,
-              }}
-            >
-              <h2 style={{ margin: 0, color: "#1e3a5f" }}>
+            <div className="perfil-header-card">
+              <img
+                src={avatarPerfil}
+                alt="Avatar del perfil"
+                className="perfil-avatar-grande"
+              />
+
+              <h2 className="perfil-nombre">
                 {perfil.nombre || "—"} {perfil.apellido || ""}
               </h2>
 
-              <p style={{ margin: "8px 0 0", opacity: 0.8 }}>
+              <p className="perfil-owner">
                 {esCompartido ? (
                   <>
                     <strong>Compartido por:</strong>{" "}
@@ -152,8 +190,7 @@ export default function PerfilDetalle() {
               </p>
             </div>
 
-            {/* Datos */}
-            <div style={{ marginTop: 18 }} className="perfil-datos">
+            <div className="perfil-datos perfil-datos-detalle">
               <p>
                 <strong>Nombre:</strong> {perfil.nombre || "—"}
               </p>
@@ -161,13 +198,15 @@ export default function PerfilDetalle() {
                 <strong>Apellido:</strong> {perfil.apellido || "—"}
               </p>
               <p>
-                <strong>Fecha de nacimiento:</strong> {fmtFecha(perfil.fechaNacimiento)}
+                <strong>Fecha de nacimiento:</strong>{" "}
+                {fmtFecha(perfil.fechaNacimiento)}
               </p>
               <p>
                 <strong>DNI:</strong> {perfil.dni || "—"}
               </p>
               <p>
-                <strong>Grupo sanguíneo:</strong> {perfil.grupoSanguineo || "—"}
+                <strong>Grupo sanguíneo:</strong>{" "}
+                {perfil.grupoSanguineo || "—"}
               </p>
               <p>
                 <strong>Factor:</strong> {perfil.factor || "—"}
@@ -177,25 +216,70 @@ export default function PerfilDetalle() {
               </p>
             </div>
 
-            {/* Extra: si querés mostrar miembros */}
-            {Array.isArray(perfil.miembros) && (
-              <div style={{ marginTop: 16 }}>
-                <p style={{ fontWeight: 800, marginBottom: 6, color: "#1e3a5f" }}>
-                  Miembros (IDs)
-                </p>
-                <div style={{ opacity: 0.8, fontSize: 13 }}>
-                  {perfil.miembros.length === 0 ? (
-                    <p>—</p>
-                  ) : (
-                    <ul style={{ margin: 0, paddingLeft: 18 }}>
-                      {perfil.miembros.map((m, idx) => (
-                        <li key={`${m}-${idx}`}>{String(m)}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+            {!esCompartido && perfil?.miembrosUsuarios?.length > 0 && (
+  <div className="perfil-compartido-box">
+    <h3 className="perfil-compartido-titulo">Compartido con</h3>
+
+    {perfil.miembrosUsuarios
+      .filter((u) => String(u._id) !== String(perfil.ownerId))
+      .length === 0 ? (
+      <p className="perfil-compartido-vacio">Este perfil no está compartido con otros usuarios.</p>
+    ) : (
+      <ul className="perfil-compartido-lista">
+        {perfil.miembrosUsuarios
+          .filter((u) => String(u._id) !== String(perfil.ownerId))
+          .map((u) => (
+            <li key={u._id} className="perfil-compartido-item">
+              <div className="perfil-compartido-info">
+                <span className="perfil-compartido-nombre">
+                  {u.nombre || u.username || "Usuario"}
+                </span>
+                <span className="perfil-compartido-email">
+                  {u.email || "Sin email"}
+                </span>
               </div>
-            )}
+
+              <button
+                type="button"
+                className="btn-editar"
+                onClick={() => dejarDeCompartir(u.email)}
+              >
+                Dejar de compartir
+              </button>
+            </li>
+          ))}
+      </ul>
+    )}
+  </div>
+)}
+
+            <div className="perfil-botones">
+              <button
+                type="button"
+                className="btn-editar"
+                onClick={() => navigate(`/perfiles/${perfil._id}/editar`)}
+              >
+                Editar perfil
+              </button>
+
+              {esCompartido && (
+                <button
+                  type="button"
+                  className="btn-editar"
+                  onClick={dejarDeCompartir}
+                >
+                  Dejar de compartir
+                </button>
+              )}
+
+              <button
+                type="button"
+                className="btn-editar"
+                onClick={() => navigate(`/mis-vacunas?perfilId=${perfil._id}`)}
+              >
+                Ver vacunas
+              </button>
+            </div>
           </>
         )}
       </div>

@@ -7,19 +7,18 @@ const route = Router();
 route.get("/", tokenValidate, controller.getPerfiles);
 route.post("/", tokenValidate, controller.createPerfil);
 
-// ✅ compartir
 route.post("/:id/invitar", tokenValidate, controller.invitar);
 
-// ✅ eliminar
 route.delete("/:id", tokenValidate, controller.deletePerfil);
 
 route.get("/mios", tokenValidate, controller.getPerfilesCreados);
 route.get("/compartidos", tokenValidate, controller.getPerfilesCompartidos);
 
-// ✅ detalle
 route.get("/:id", tokenValidate, controller.getPerfilById);
 
-route.put("/perfiles/:id", tokenValidate, controller.updatePerfil);
+route.put("/:id", tokenValidate, controller.updatePerfil);
+
+route.post("/:id/dejar-compartir", tokenValidate, controller.dejarDeCompartir);
 
 
 export default route;

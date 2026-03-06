@@ -278,12 +278,20 @@ export default function Perfiles() {
                         gap: 12,
                       }}
                     >
-                      <div>
-                        <h3 style={{ marginBottom: 6 }}>
-                          {perfil.nombre} {perfil.apellido ? perfil.apellido : ""}
-                        </h3>
-                      </div>
+                      <div className="perfil-header">
+                        <img
+                          src={perfil.avatar}
+                          alt="avatar"
+                          className="perfil-avatar"
+                        />
 
+                        <div>
+                          <p className="perfil-nombre">{perfil.nombre}</p>
+                          {perfil.apellido && (
+                            <p className="perfil-apellido">{perfil.apellido}</p>
+                          )}
+                        </div>
+                      </div>
                       <div
                         className="btns"
                         style={{ display: "flex", gap: 10, alignItems: "center" }}
@@ -337,7 +345,7 @@ export default function Perfiles() {
                                   [perfil._id]: e.target.value,
                                 }))
                               }
-                              placeholder="test@gmail.com"
+                              placeholder="ejemplo@gmail.com"
                             />
                             <button
                               type="button"
@@ -393,11 +401,25 @@ export default function Perfiles() {
                       }}
                     >
                       <div>
-                        <h3 style={{ marginBottom: 6 }}>
+                        {/* <h3 style={{ marginBottom: 6 }}>
                           {perfil.nombre} {perfil.apellido ? perfil.apellido : ""}
-                        </h3>
+                        </h3> */}
+                        <div className="perfil-header">
+                          <img
+                            src={perfil.avatar}
+                            alt="avatar"
+                            className="perfil-avatar"
+                          />
 
-                        <p style={{ margin: 0, color: "#888", fontSize: "13px" }}>
+                          <div>
+                            <p className="perfil-nombre">{perfil.nombre}</p>
+                            {perfil.apellido && (
+                              <p className="perfil-apellido">{perfil.apellido}</p>
+                            )}
+                          </div>
+                        </div>
+
+                        <p style={{ marginTop: 20, color: "#888", fontSize: "13px" }}>
                           Compartido por: {nombreDeQuienComparte(perfil)}
                         </p>
                       </div>
