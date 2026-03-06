@@ -14,8 +14,8 @@ body{
   /* max-width: 1280px; */
 }
 
-html, body, #root {
-  height: 100%;
+/* html, body, #root {
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -27,6 +27,31 @@ html, body, #root {
 
 .main-content {
   flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.card-auth {
+  width: 100%;
+  max-width: 1050px;
+}
+.footer {
+  background: #1e3a5f;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+} */
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.layout-container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 main{
