@@ -2,6 +2,47 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUsuario } from "../context/SessionContext";
 
+function Campo({ label, value }) {
+  if (value === undefined || value === null || value === "") return null;
+  return (
+    <p style={{ margin: "6px 0", opacity: 0.9 }}>
+      <strong>{label}:</strong> {value}
+    </p>
+  );
+}
+
+function CardPerfil({ perfil, extraLinea, acciones }) {
+  return (
+    <li className="vacuna-item">
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ margin: 0 }}>{perfil.nombre}</h3>
+
+          {extraLinea && (
+            <p style={{ margin: "6px 0 0", opacity: 0.75, fontSize: 13 }}>
+              {extraLinea}
+            </p>
+          )}
+
+          {/* ✅ “toda la info del perfil” (si existe en tu doc) */}
+          <div style={{ marginTop: 10 }}>
+            <Campo label="Apellido" value={perfil.apellido} />
+            <Campo label="Fecha de nacimiento" value={perfil.fechaNacimiento} />
+            <Campo label="DNI" value={perfil.dni} />
+            <Campo label="Grupo sanguíneo" value={perfil.grupoSanguineo} />
+            <Campo label="Factor" value={perfil.factor} />
+            <Campo label="Teléfono" value={perfil.telefono} />
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+          {acciones}
+        </div>
+      </div>
+    </li>
+  );
+}
+
 export default function MiPerfil() {
   const navigate = useNavigate();
   const { userApp } = useUsuario();
@@ -16,9 +57,7 @@ export default function MiPerfil() {
   }`;
 
   const headersAuth = useMemo(() => {
-    return {
-      Authorization: `Bearer ${userApp?.token}`,
-    };
+    return { Authorization: `Bearer ${userApp?.token}` };
   }, [userApp?.token]);
 
   useEffect(() => {
@@ -31,17 +70,14 @@ export default function MiPerfil() {
       try {
         const [rMios, rCompartidos] = await Promise.all([
           fetch("http://localhost:3333/api/perfiles/mios", { headers: headersAuth }),
-          fetch("http://localhost:3333/api/perfiles/compartidos", {
-            headers: headersAuth,
-          }),
+          fetch("http://localhost:3333/api/perfiles/compartidos", { headers: headersAuth }),
         ]);
 
         const dMios = await rMios.json().catch(() => []);
         const dCompartidos = await rCompartidos.json().catch(() => []);
 
         if (!rMios.ok) throw new Error(dMios?.error || "Error al obtener perfiles creados");
-        if (!rCompartidos.ok)
-          throw new Error(dCompartidos?.error || "Error al obtener perfiles compartidos");
+        if (!rCompartidos.ok) throw new Error(dCompartidos?.error || "Error al obtener perfiles compartidos");
 
         setMios(Array.isArray(dMios) ? dMios : []);
         setCompartidos(Array.isArray(dCompartidos) ? dCompartidos : []);
@@ -123,21 +159,14 @@ export default function MiPerfil() {
           <p>
             <strong>Email:</strong> {userApp.email}
           </p>
-
           {userApp.nombre && (
             <p>
               <strong>Nombre:</strong> {userApp.nombre}
             </p>
           )}
-
-          {/* {userApp._id && (
-            <p>
-              <strong>ID de usuario:</strong> {userApp._id}
-            </p>
-          )} */}
         </div>
 
-        {/* Acciones */} 
+        {/* Acciones */}
         <div
           style={{
             display: "flex",
@@ -153,6 +182,10 @@ export default function MiPerfil() {
 
           <button className="boton" onClick={() => navigate("/perfiles")}>
             Ver perfiles
+          </button>
+
+          <button className="boton" onClick={() => navigate("/perfiles/nuevo")}>
+            Crear nuevo perfil
           </button>
         </div>
 
@@ -175,27 +208,17 @@ export default function MiPerfil() {
                 ) : (
                   <ul className="lista-vacunas">
                     {mios.map((p) => (
-                      <li key={p._id} className="vacuna-item">
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            gap: 12,
-                            alignItems: "center",
-                          }}
-                        >
-                          <div>
-                            <h3 style={{ margin: 0 }}>{p.nombre}</h3>
-                            <p style={{ margin: "6px 0 0", opacity: 0.75, fontSize: 13 }}>
-                              Perfil creado por vos
-                            </p>
-                          </div>
-
-                          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                      <CardPerfil
+                        key={p._id}
+                        perfil={p}
+                        extraLinea="Perfil creado por vos"
+                        acciones={
+                          <>
                             <button
                               type="button"
                               className="btn-editar"
                               onClick={() => navigate(`/mis-vacunas?perfilId=${p._id}`)}
+                              title="Abrí Mis Vacunas y elegí el perfil (si ya usás el select)"
                             >
                               Ver vacunas
                             </button>
@@ -208,9 +231,9 @@ export default function MiPerfil() {
                             >
                               Compartir
                             </button>
-                          </div>
-                        </div>
-                      </li>
+                          </>
+                        }
+                      />
                     ))}
                   </ul>
                 )}
@@ -225,33 +248,20 @@ export default function MiPerfil() {
                 ) : (
                   <ul className="lista-vacunas">
                     {compartidos.map((p) => (
-                      <li key={p._id} className="vacuna-item">
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            gap: 12,
-                            alignItems: "center",
-                          }}
-                        >
-                          <div>
-                            <h3 style={{ margin: 0 }}>{p.nombre}</h3>
-<p style={{ margin: "6px 0 0", opacity: 0.75, fontSize: 13 }}>
-  Compartido por: {p.ownerUsername || p.ownerEmail || "—"}
-</p>
-                          </div>
-
-                          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                            <button
-                              type="button"
-                              className="btn-editar"
-                              onClick={() => navigate(`/mis-vacunas?perfilId=${p._id}`)}
-                            >
-                              Ver vacunas
-                            </button>
-                          </div>
-                        </div>
-                      </li>
+                      <CardPerfil
+                        key={p._id}
+                        perfil={p}
+                        extraLinea={`Compartido por: ${p.ownerUsername || p.ownerEmail || "—"}`}
+                        acciones={
+                          <button
+                            type="button"
+                            className="btn-editar"
+                            onClick={() => navigate(`/mis-vacunas?perfilId=${p._id}`)}
+                          >
+                            Ver vacunas
+                          </button>
+                        }
+                      />
                     ))}
                   </ul>
                 )}

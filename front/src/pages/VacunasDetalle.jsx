@@ -16,12 +16,6 @@ const VacunasDetalle = () => {
   // ✅ perfilId SOLO si viene explícito en la URL (cuando entrás desde "Mis Vacunas")
   const perfilId = useMemo(() => searchParams.get("perfilId") || "", [searchParams]);
 
-  const imagenSrc = useMemo(() => {
-    if (!vacuna?.imagen) return "";
-    if (vacuna.imagen.startsWith("http")) return vacuna.imagen;
-    return `${apiBase}${vacuna.imagen}`;
-  }, [vacuna]);
-
   const edadTexto = useMemo(() => {
     const e = vacuna?.edad_aplicacion;
     if (!e) return "—";
@@ -82,7 +76,7 @@ const VacunasDetalle = () => {
     <main className="card detalle-container">
       <div className="volver-wrapper">
         <button className="volver-btn" onClick={() => navigate(-1)}>
-          ← Volver
+          Volver
         </button>
       </div>
 
@@ -90,7 +84,7 @@ const VacunasDetalle = () => {
         <div className="detalle-img-col">
           {vacuna.imagen ? (
             <img
-              src={imagenSrc}
+              src={vacuna.imagen}  
               alt={vacuna.nombre || "Vacuna"}
               className="detalle-img"
               onError={(e) => {
@@ -126,7 +120,12 @@ const VacunasDetalle = () => {
           </p>
 
           {vacuna.link && (
-            <a href={vacuna.link} target="_blank" rel="noreferrer" className="detalle-btn">
+            <a
+              href={vacuna.link}
+              target="_blank"
+              rel="noreferrer"
+              className="detalle-btn"
+            >
               Información oficial
             </a>
           )}

@@ -12,9 +12,11 @@ export default function Nav() {
     <nav className="navbar">
       <div className="navbar-container">
 
-        <div className="navbar-logo">
-          <Link to="/">Mistomed</Link>
-        </div>
+<div className="navbar-logo">
+  <Link to="/">
+    <img src="/img/logoPNG.png" alt="MistoMed" />
+  </Link>
+</div>
 
         <div className="navbar-links">
 

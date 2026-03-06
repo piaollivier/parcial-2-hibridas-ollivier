@@ -7,8 +7,39 @@ const userApps = db.collection("userApps");
 
 export async function getPerfilesByUser(userId) {
   await client.connect();
-  return perfiles.find({ miembros: new ObjectId(userId) }).toArray();
+
+  const uid = new ObjectId(userId);
+
+  const data = await perfiles
+    .aggregate([
+      {
+        $match: {
+          miembros: uid,
+        },
+      },
+      {
+        $lookup: {
+          from: "userApps",
+          localField: "ownerId",
+          foreignField: "_id",
+          as: "owner",
+        },
+      },
+      { $unwind: { path: "$owner", preserveNullAndEmptyArrays: true } },
+      {
+        $addFields: {
+          ownerUsername: "$owner.username",
+          ownerEmail: "$owner.email",
+          ownerNombre: "$owner.nombre", // ✅ si lo tenés en userApps
+        },
+      },
+      { $project: { owner: 0 } }, // opcional: sacamos el objeto owner completo
+    ])
+    .toArray();
+
+  return data;
 }
+
 export async function createPerfil(data, userId) {
   await client.connect();
 
@@ -30,19 +61,52 @@ export async function createPerfil(data, userId) {
   return { ...doc, _id: r.insertedId };
 }
 
+export async function getPerfilById(id, userId) {
+  await client.connect();
+
+  const perfil = await perfiles.findOne({
+    _id: new ObjectId(id),
+  });
+
+  if (!perfil) return null;
+
+  // buscar usuarios miembros
+  const miembrosUsuarios = await userApps
+    .find(
+      { _id: { $in: perfil.miembros } },
+      { projection: { username: 1, nombre: 1, email: 1 } }
+    )
+    .toArray();
+
+  return {
+    ...perfil,
+    miembrosUsuarios
+  };
+}
+
 export async function updatePerfil(id, data, userId) {
   await client.connect();
 
-  // Solo si es miembro (mínimo)
   const perfil = await perfiles.findOne({
     _id: new ObjectId(id),
     miembros: new ObjectId(userId),
   });
+
   if (!perfil) throw new Error("Sin acceso al perfil");
+
+  const datosActualizados = {
+    nombre: (data.nombre || "").trim(),
+    apellido: (data.apellido || "").trim(),
+    fechaNacimiento: data.fechaNacimiento || null,
+    dni: data.dni ? String(data.dni).trim() : null,
+    grupoSanguineo: data.grupoSanguineo || null,
+    factor: data.factor || null,
+    telefono: data.telefono ? String(data.telefono).trim() : null,
+  };
 
   await perfiles.updateOne(
     { _id: new ObjectId(id) },
-    { $set: { nombre: data.nombre } }
+    { $set: datosActualizados }
   );
 
   return { ok: true };

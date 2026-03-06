@@ -20,7 +20,10 @@ import MiPerfil from "./pages/MiPerfil.jsx"
 import Grupos from "./pages/Grupos.jsx"
 import GruposCrear from "./pages/GruposCrear.jsx"
 import GruposEditar from "./pages/GruposEditar.jsx"
-import Perfiles from "./pages/Perfiles";
+import Perfiles from "./pages/Perfiles.jsx";
+import PerfilesNuevo from "./pages/PerfilesNuevo";
+import PerfilDetalle from "./pages/PerfilDetalle";
+import EditarPerfil from "./pages/EditarPerfil.jsx";
 
 
 const router = createBrowserRouter([
@@ -38,31 +41,33 @@ const router = createBrowserRouter([
         path: "/vacunas/:id",
         element: <ProtectedRoute component={<VacunasDetalle />} />,
       },
-      { path: "/login", 
-        element: <Login /> 
+      {
+        path: "/login",
+        element: <Login />
       },
-      { path: "/logout", 
-        element: <Logout /> 
+      {
+        path: "/logout",
+        element: <Logout />
       },
       {
         path: "/register",
         element: <Register />
       },
-      { 
-        path: "/mis-vacunas", 
-        element: <MisVacunas /> 
-      },       
-      { 
-        path: "/mis-vacunas/nueva", 
-        element: <MisVacunasCrear /> 
+      {
+        path: "/mis-vacunas",
+        element: <MisVacunas />
       },
-      { 
-        path: "/mis-vacunas/editar/:id", 
-        element: <MisVacunasEditar /> 
+      {
+        path: "/mis-vacunas/nueva",
+        element: <MisVacunasCrear />
       },
-      { 
-        path: "/mi-perfil", 
-        element: <MiPerfil /> 
+      {
+        path: "/mis-vacunas/editar/:id",
+        element: <MisVacunasEditar />
+      },
+      {
+        path: "/mi-perfil",
+        element: <MiPerfil />
       },
       {
         path: "/grupos",
@@ -79,6 +84,18 @@ const router = createBrowserRouter([
       {
         path: "/perfiles",
         element: <ProtectedRoute component={<Perfiles />} />,
+      },
+      {
+        path: "/perfiles/nuevo",
+        element: <ProtectedRoute component={<PerfilesNuevo />} />,
+      },
+      {
+        path: "/perfiles/:id",
+        element: <ProtectedRoute component={<PerfilDetalle />} />,
+      },
+      {
+        path: "/perfiles/:id/editar",
+        element: <ProtectedRoute component={<EditarPerfil />} />,
       }
     ],
   },

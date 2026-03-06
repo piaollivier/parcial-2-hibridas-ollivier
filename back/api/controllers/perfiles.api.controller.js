@@ -10,6 +10,21 @@ export async function getPerfiles(req, res) {
   }
 }
 
+export async function getPerfilById(req, res) {
+  try {
+    const id = req.params.id;
+    const userId = req.user?._id;
+
+    const perfil = await service.getPerfilById(id, userId);
+    if (!perfil) return res.status(404).json({ error: "Perfil no encontrado" });
+
+    res.json(perfil);
+  } catch (e) {
+    console.error("ERROR GET PERFIL BY ID >>>", e.message);
+    res.status(500).json({ error: "Error interno" });
+  }
+}
+
 export async function createPerfil(req, res) {
   try {
     const {
@@ -24,7 +39,9 @@ export async function createPerfil(req, res) {
 
     if (!nombre) return res.status(400).json({ error: "Nombre requerido" });
     if (!dni) return res.status(400).json({ error: "DNI requerido" });
-    if (!fechaNacimiento) return res.status(400).json({ error: "Fecha de nacimiento requerida" });
+    if (!fechaNacimiento) {
+      return res.status(400).json({ error: "Fecha de nacimiento requerida" });
+    }
 
     const perfil = await service.createPerfil(
       { nombre, apellido, fechaNacimiento, dni, grupoSanguineo, factor, telefono },
@@ -35,6 +52,42 @@ export async function createPerfil(req, res) {
   } catch (err) {
     console.error("ERROR CREATE PERFIL >>>", err.message);
     return res.status(400).json({ error: err.message });
+  }
+}
+
+export async function updatePerfil(req, res) {
+  try {
+    const id = req.params.id;
+    const userId = req.user?._id;
+
+    const {
+      nombre,
+      apellido,
+      fechaNacimiento,
+      dni,
+      grupoSanguineo,
+      factor,
+      telefono,
+    } = req.body;
+
+    const r = await service.updatePerfil(
+      id,
+      {
+        nombre,
+        apellido,
+        fechaNacimiento,
+        dni,
+        grupoSanguineo,
+        factor,
+        telefono,
+      },
+      userId
+    );
+
+    res.json(r);
+  } catch (e) {
+    console.error("ERROR UPDATE PERFIL >>>", e.message);
+    res.status(400).json({ error: e.message || "No se pudo editar el perfil" });
   }
 }
 
@@ -54,7 +107,7 @@ export async function invitar(req, res) {
 export async function deletePerfil(req, res) {
   try {
     const id = req.params.id;
-    const userId = req.user?._id; // viene de tokenValidate
+    const userId = req.user?._id;
 
     const r = await service.deletePerfil(id, userId);
     res.json(r);
@@ -82,4 +135,3 @@ export async function getPerfilesCompartidos(req, res) {
     res.status(500).json({ error: "Error interno" });
   }
 }
-

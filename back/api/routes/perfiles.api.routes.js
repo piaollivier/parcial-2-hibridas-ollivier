@@ -16,6 +16,10 @@ route.delete("/:id", tokenValidate, controller.deletePerfil);
 route.get("/mios", tokenValidate, controller.getPerfilesCreados);
 route.get("/compartidos", tokenValidate, controller.getPerfilesCompartidos);
 
+// ✅ detalle
+route.get("/:id", tokenValidate, controller.getPerfilById);
+
+route.put("/perfiles/:id", tokenValidate, controller.updatePerfil);
 
 
 export default route;

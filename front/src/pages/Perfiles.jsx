@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useUsuario } from "../context/SessionContext";
 
 export default function Perfiles() {
-  const navigate = useNavigate();
+  const navegar = useNavigate();
   const { userApp } = useUsuario();
 
-  const [perfiles, setPerfiles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [listaPerfiles, setListaPerfiles] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
-  // ✅ form completo crear perfil
-  const [formPerfil, setFormPerfil] = useState({
+  // ✅ form completo crear perfil (lo dejás por si lo usás después)
+  const [formularioPerfil, setFormularioPerfil] = useState({
     nombre: "",
     apellido: "",
     fechaNacimiento: "",
@@ -20,88 +20,88 @@ export default function Perfiles() {
     telefono: "",
   });
 
-  const [error, setError] = useState("");
+  const [mensajeError, setMensajeError] = useState("");
 
   // ✅ compartir
-  const [shareOpenId, setShareOpenId] = useState(null);
-  const [shareEmailById, setShareEmailById] = useState({});
-  const [shareMsgById, setShareMsgById] = useState({});
-  const [sharing, setSharing] = useState(false);
+  const [idPerfilCompartirAbierto, setIdPerfilCompartirAbierto] = useState(null);
+  const [emailPorPerfilId, setEmailPorPerfilId] = useState({});
+  const [mensajePorPerfilId, setMensajePorPerfilId] = useState({});
+  const [estaEnviandoInvitacion, setEstaEnviandoInvitacion] = useState(false);
 
-  const headersAuth = useMemo(() => {
+  const headersConToken = useMemo(() => {
     return {
       "Content-Type": "application/json",
       Authorization: `Bearer ${userApp?.token}`,
     };
   }, [userApp?.token]);
 
-  const cargarPerfiles = async () => {
+  const traerPerfiles = async () => {
     if (!userApp?.token) {
-      setLoading(false);
-      setPerfiles([]);
-      setError("No hay token en sesión. Cerrá sesión y volvé a loguearte.");
+      setCargando(false);
+      setListaPerfiles([]);
+      setMensajeError("No hay token en sesión. Cerrá sesión y volvé a loguearte.");
       return;
     }
 
-    setLoading(true);
-    setError("");
+    setCargando(true);
+    setMensajeError("");
 
     try {
-      const res = await fetch("http://localhost:3333/api/perfiles", {
-        headers: headersAuth,
+      const respuesta = await fetch("http://localhost:3333/api/perfiles", {
+        headers: headersConToken,
       });
 
-      const data = await res.json().catch(() => []);
-      if (!res.ok) throw new Error(data?.error || "Error al obtener perfiles");
+      const datos = await respuesta.json().catch(() => []);
+      if (!respuesta.ok) throw new Error(datos?.error || "Error al obtener perfiles");
 
-      setPerfiles(Array.isArray(data) ? data : []);
+      setListaPerfiles(Array.isArray(datos) ? datos : []);
     } catch (err) {
-      setError(err?.message || "Error al obtener perfiles");
+      setMensajeError(err?.message || "Error al obtener perfiles");
     } finally {
-      setLoading(false);
+      setCargando(false);
     }
   };
 
   useEffect(() => {
-    cargarPerfiles();
+    traerPerfiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userApp?.token]);
 
-  const onChangeForm = (e) => {
+  const cuandoCambiaInput = (e) => {
     const { name, value } = e.target;
-    setFormPerfil((prev) => ({ ...prev, [name]: value }));
+    setFormularioPerfil((prev) => ({ ...prev, [name]: value }));
   };
 
-  const crearPerfil = async (e) => {
+  const guardarNuevoPerfil = async (e) => {
     e.preventDefault();
-    setError("");
+    setMensajeError("");
 
-    const payload = {
-      nombre: formPerfil.nombre.trim(),
-      apellido: formPerfil.apellido.trim(),
-      fechaNacimiento: formPerfil.fechaNacimiento,
-      dni: String(formPerfil.dni || "").trim(),
-      grupoSanguineo: formPerfil.grupoSanguineo,
-      factor: formPerfil.factor,
-      telefono: String(formPerfil.telefono || "").trim(),
+    const datosAEnviar = {
+      nombre: formularioPerfil.nombre.trim(),
+      apellido: formularioPerfil.apellido.trim(),
+      fechaNacimiento: formularioPerfil.fechaNacimiento,
+      dni: String(formularioPerfil.dni || "").trim(),
+      grupoSanguineo: formularioPerfil.grupoSanguineo,
+      factor: formularioPerfil.factor,
+      telefono: String(formularioPerfil.telefono || "").trim(),
     };
 
-    // ✅ validaciones mínimas (ajustá si tu back pide más/menos)
-    if (!payload.nombre) return setError("Nombre requerido");
-    if (!payload.dni) return setError("DNI requerido");
-    if (!payload.fechaNacimiento) return setError("Fecha de nacimiento requerida");
+    if (!datosAEnviar.nombre) return setMensajeError("Nombre requerido");
+    if (!datosAEnviar.dni) return setMensajeError("DNI requerido");
+    if (!datosAEnviar.fechaNacimiento)
+      return setMensajeError("Fecha de nacimiento requerida");
 
     try {
-      const res = await fetch("http://localhost:3333/api/perfiles", {
+      const respuesta = await fetch("http://localhost:3333/api/perfiles", {
         method: "POST",
-        headers: headersAuth,
-        body: JSON.stringify(payload),
+        headers: headersConToken,
+        body: JSON.stringify(datosAEnviar),
       });
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || "Error al crear perfil");
+      const datos = await respuesta.json().catch(() => ({}));
+      if (!respuesta.ok) throw new Error(datos?.error || "Error al crear perfil");
 
-      setFormPerfil({
+      setFormularioPerfil({
         nombre: "",
         apellido: "",
         fechaNacimiento: "",
@@ -111,55 +111,74 @@ export default function Perfiles() {
         telefono: "",
       });
 
-      await cargarPerfiles();
+      await traerPerfiles();
     } catch (err) {
-      setError(err?.message || "Error al crear perfil");
+      setMensajeError(err?.message || "Error al crear perfil");
     }
   };
 
-  const isOwner = (perfil) => String(perfil.ownerId) === String(userApp?._id);
+  const esDueno = (perfil) => String(perfil.ownerId) === String(userApp?._id);
 
-  const abrirCompartir = (perfilId) => {
-    setShareOpenId((prev) => (prev === perfilId ? null : perfilId));
-    setShareMsgById((prev) => ({ ...prev, [perfilId]: null }));
+  // ✅ separar en 2 listas
+  const perfilesMios = useMemo(() => {
+    return listaPerfiles.filter((p) => esDueno(p));
+  }, [listaPerfiles, userApp?._id]);
+
+  const perfilesCompartidos = useMemo(() => {
+    return listaPerfiles.filter((p) => !esDueno(p));
+  }, [listaPerfiles, userApp?._id]);
+
+  // ✅ quién lo compartió (depende del back, ponemos fallback)
+  const nombreDeQuienComparte = (perfil) => {
+    return (
+      perfil?.ownerNombre ||
+      perfil?.ownerUsername ||
+      perfil?.ownerEmail ||
+      "Usuario"
+    );
   };
 
-  const invitar = async (perfilId) => {
-    const email = (shareEmailById[perfilId] || "").trim();
+  const abrirSeccionCompartir = (perfilId) => {
+    setIdPerfilCompartirAbierto((prev) => (prev === perfilId ? null : perfilId));
+    setMensajePorPerfilId((prev) => ({ ...prev, [perfilId]: null }));
+  };
+
+  const enviarInvitacion = async (perfilId) => {
+    const email = (emailPorPerfilId[perfilId] || "").trim();
 
     if (!email) {
-      setShareMsgById((prev) => ({
+      setMensajePorPerfilId((prev) => ({
         ...prev,
         [perfilId]: { type: "error", text: "Ingresá un email." },
       }));
       return;
     }
 
-    setSharing(true);
-    setShareMsgById((prev) => ({ ...prev, [perfilId]: null }));
+    setEstaEnviandoInvitacion(true);
+    setMensajePorPerfilId((prev) => ({ ...prev, [perfilId]: null }));
 
     try {
-      const res = await fetch(
+      const respuesta = await fetch(
         `http://localhost:3333/api/perfiles/${perfilId}/invitar`,
         {
           method: "POST",
-          headers: headersAuth,
+          headers: headersConToken,
           body: JSON.stringify({ email }),
         }
       );
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || "No se pudo invitar");
+      const datos = await respuesta.json().catch(() => ({}));
+      if (!respuesta.ok) throw new Error(datos?.error || "No se pudo invitar");
 
-      setShareMsgById((prev) => ({
+      setMensajePorPerfilId((prev) => ({
         ...prev,
         [perfilId]: { type: "ok", text: "✅ Invitación enviada." },
       }));
 
-      setShareEmailById((prev) => ({ ...prev, [perfilId]: "" }));
-      await cargarPerfiles();
+      setEmailPorPerfilId((prev) => ({ ...prev, [perfilId]: "" }));
+      await traerPerfiles();
     } catch (err) {
-      setShareMsgById((prev) => ({
+      setMensajePorPerfilId((prev) => ({
         ...prev,
         [perfilId]: {
           type: "error",
@@ -167,24 +186,24 @@ export default function Perfiles() {
         },
       }));
     } finally {
-      setSharing(false);
+      setEstaEnviandoInvitacion(false);
     }
   };
 
-  const eliminarPerfil = async (id) => {
+  const borrarPerfil = async (id) => {
     if (!window.confirm("¿Seguro que querés eliminar este perfil?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3333/api/perfiles/${id}`, {
+      const respuesta = await fetch(`http://localhost:3333/api/perfiles/${id}`, {
         method: "DELETE",
-        headers: headersAuth,
+        headers: headersConToken,
       });
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || "No se pudo eliminar el perfil");
+      const datos = await respuesta.json().catch(() => ({}));
+      if (!respuesta.ok) throw new Error(datos?.error || "No se pudo eliminar el perfil");
 
       alert("Perfil eliminado con éxito ✅");
-      await cargarPerfiles();
+      await traerPerfiles();
     } catch (err) {
       alert(err?.message || "No se pudo eliminar el perfil");
     }
@@ -204,216 +223,216 @@ export default function Perfiles() {
   return (
     <main className="mis-vacunas-crear">
       <div className="card-auth">
-        <h1 className="card-auth__title">Perfiles</h1>
+        {/* ✅ Título + botón */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 20,
+          }}
+        >
+          <h1 className="card-auth__title" style={{ margin: 0 }}>
+            Perfiles
+          </h1>
 
-        {/* ✅ Crear perfil (form completo) */}
-        <form onSubmit={crearPerfil} className="form-vacuna" style={{ marginBottom: 18 }}>
-          <label>
-            Nombre *
-            <input
-              name="nombre"
-              value={formPerfil.nombre}
-              onChange={onChangeForm}
-              placeholder="Ej: Bautista"
-              required
-            />
-          </label>
-
-          <label>
-            Apellido
-            <input
-              name="apellido"
-              value={formPerfil.apellido}
-              onChange={onChangeForm}
-              placeholder="Ej: Pérez"
-            />
-          </label>
-
-          <label>
-            Fecha de nacimiento *
-            <input
-              type="date"
-              name="fechaNacimiento"
-              value={formPerfil.fechaNacimiento}
-              onChange={onChangeForm}
-              required
-            />
-          </label>
-
-          <label>
-            DNI *
-            <input
-              name="dni"
-              value={formPerfil.dni}
-              onChange={onChangeForm}
-              placeholder="40123456"
-              inputMode="numeric"
-              required
-            />
-          </label>
-
-          <label>
-            Grupo sanguíneo
-            <select
-              name="grupoSanguineo"
-              value={formPerfil.grupoSanguineo}
-              onChange={onChangeForm}
-            >
-              <option value="">Seleccionar</option>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="AB">AB</option>
-              <option value="O">O</option>
-            </select>
-          </label>
-
-          <label>
-            Factor
-            <select name="factor" value={formPerfil.factor} onChange={onChangeForm}>
-              <option value="">Seleccionar</option>
-              <option value="+">+</option>
-              <option value="-">-</option>
-            </select>
-          </label>
-
-          <label>
-            Teléfono
-            <input
-              name="telefono"
-              value={formPerfil.telefono}
-              onChange={onChangeForm}
-              placeholder="Ej: 3875551234"
-            />
-          </label>
-
-          {error && (
-            <p style={{ marginTop: 10, color: "#b00020", fontWeight: 600 }}>
-              {error}
-            </p>
-          )}
-
-          <button type="submit" className="btn-primary-auth" style={{ marginTop: 14 }}>
-            Crear perfil
+          <button
+            className="btn-primary-auth"
+            onClick={() => navegar("/perfiles/nuevo")}
+            style={{ width: "auto", padding: "8px 18px" }}
+          >
+            + Nuevo perfil
           </button>
-        </form>
+        </div>
+
+        {mensajeError && (
+          <p style={{ marginTop: 0, marginBottom: 14, color: "#b00020", fontWeight: 700 }}>
+            {mensajeError}
+          </p>
+        )}
 
         {/* ✅ Lista */}
-        {loading ? (
+        {cargando ? (
           <p>Cargando perfiles...</p>
-        ) : perfiles.length === 0 ? (
+        ) : listaPerfiles.length === 0 ? (
           <p>No hay perfiles todavía.</p>
         ) : (
-          <ul className="lista-vacunas">
-            {perfiles.map((p) => {
-              const owner = isOwner(p);
+          <>
+            {/* ===== MIS PERFILES ===== */}
+            <h2 style={{ margin: "10px 0 12px", fontSize: 18, opacity: 0.9 }}>
+              Mis perfiles
+            </h2>
 
-              return (
-                <li key={p._id} className="vacuna-item">
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                    <div>
-                      <h3 style={{ marginBottom: 6 }}>
-                        {p.nombre} {p.apellido ? p.apellido : ""}
-                      </h3>
+            {perfilesMios.length === 0 ? (
+              <p style={{ marginTop: 0, opacity: 0.75 }}>
+                Todavía no creaste perfiles.
+              </p>
+            ) : (
+              <ul className="lista-vacunas" style={{ marginTop: 0 }}>
+                {perfilesMios.map((perfil) => (
+                  <li key={perfil._id} className="vacuna-item">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 12,
+                      }}
+                    >
+                      <div>
+                        <h3 style={{ marginBottom: 6 }}>
+                          {perfil.nombre} {perfil.apellido ? perfil.apellido : ""}
+                        </h3>
+                      </div>
 
-                      {!owner && (
-                        <p style={{ margin: 0, fontWeight: 700, opacity: 0.75 }}>
-                          Compartido
-                        </p>
-                      )}
-
-                      {/* info extra si existe */}
-                      <p style={{ margin: "6px 0 0", opacity: 0.8, fontSize: 13 }}>
-                        {p.dni ? `DNI: ${p.dni}` : ""}
-                        {p.fechaNacimiento ? ` · Nac: ${String(p.fechaNacimiento).slice(0, 10)}` : ""}
-                        {p.grupoSanguineo ? ` · Sangre: ${p.grupoSanguineo}${p.factor || ""}` : ""}
-                        {p.telefono ? ` · Tel: ${p.telefono}` : ""}
-                      </p>
-                    </div>
-
-                    <div className="btns" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                      <button
-                        type="button"
-                        className="btn-editar"
-                        onClick={() => navigate("/mis-vacunas")}
-                        title="Ver vacunas (elegís el perfil desde el select)"
+                      <div
+                        className="btns"
+                        style={{ display: "flex", gap: 10, alignItems: "center" }}
                       >
-                        Ver vacunas
-                      </button>
-
-                      {owner && (
-                        <>
-                          <button
-                            type="button"
-                            className="btn-editar"
-                            onClick={() => abrirCompartir(p._id)}
-                          >
-                            Compartir
-                          </button>
-
-                          <button
-                            type="button"
-                            className="btn-borrar"
-                            onClick={() => eliminarPerfil(p._id)}
-                          >
-                            Eliminar
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* ✅ Panel compartir */}
-                  {owner && shareOpenId === p._id && (
-                    <div style={{ marginTop: 14 }}>
-                      <label style={{ display: "grid", gap: 8 }}>
-                        Email del usuario a invitar
-                        <div style={{ display: "flex", gap: 10 }}>
-                          <input
-                            value={shareEmailById[p._id] || ""}
-                            onChange={(e) =>
-                              setShareEmailById((prev) => ({
-                                ...prev,
-                                [p._id]: e.target.value,
-                              }))
-                            }
-                            placeholder="test@gmail.com"
-                          />
-                          <button
-                            type="button"
-                            className="btn-primary-auth"
-                            onClick={() => invitar(p._id)}
-                            disabled={sharing}
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            {sharing ? "Enviando..." : "Invitar"}
-                          </button>
-                        </div>
-                      </label>
-
-                      {shareMsgById[p._id]?.text && (
-                        <p
-                          style={{
-                            marginTop: 10,
-                            fontWeight: 700,
-                            color:
-                              shareMsgById[p._id].type === "ok"
-                                ? "green"
-                                : "#b00020",
-                          }}
+                        <button
+                          type="button"
+                          className="btn-editar"
+                          onClick={() => navegar("/mis-vacunas")}
+                          title="Ver vacunas (elegís el perfil desde el select)"
                         >
-                          {shareMsgById[p._id].text}
-                        </p>
-                      )}
+                          Ver vacunas
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn-editar"
+                          onClick={() => navegar(`/perfiles/${perfil._id}`)}
+                        >
+                          Ver
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn-editar"
+                          onClick={() => abrirSeccionCompartir(perfil._id)}
+                        >
+                          Compartir
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn-borrar"
+                          onClick={() => borrarPerfil(perfil._id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+
+                    {/* ✅ Panel compartir */}
+                    {idPerfilCompartirAbierto === perfil._id && (
+                      <div style={{ marginTop: 14 }}>
+                        <label style={{ display: "grid", gap: 8 }}>
+                          Email del usuario a invitar
+                          <div style={{ display: "flex", gap: 10 }}>
+                            <input
+                              value={emailPorPerfilId[perfil._id] || ""}
+                              onChange={(e) =>
+                                setEmailPorPerfilId((prev) => ({
+                                  ...prev,
+                                  [perfil._id]: e.target.value,
+                                }))
+                              }
+                              placeholder="test@gmail.com"
+                            />
+                            <button
+                              type="button"
+                              className="btn-primary-auth"
+                              onClick={() => enviarInvitacion(perfil._id)}
+                              disabled={estaEnviandoInvitacion}
+                              style={{ whiteSpace: "nowrap" }}
+                            >
+                              {estaEnviandoInvitacion ? "Enviando..." : "Invitar"}
+                            </button>
+                          </div>
+                        </label>
+
+                        {mensajePorPerfilId[perfil._id]?.text && (
+                          <p
+                            style={{
+                              marginTop: 10,
+                              fontWeight: 700,
+                              color:
+                                mensajePorPerfilId[perfil._id].type === "ok"
+                                  ? "green"
+                                  : "#b00020",
+                            }}
+                          >
+                            {mensajePorPerfilId[perfil._id].text}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* ===== COMPARTIDOS CONMIGO ===== */}
+            <h2 style={{ margin: "22px 0 12px", fontSize: 18, opacity: 0.9 }}>
+              Compartidos conmigo
+            </h2>
+
+            {perfilesCompartidos.length === 0 ? (
+              <p style={{ marginTop: 0, opacity: 0.75 }}>
+                Nadie te compartió perfiles todavía.
+              </p>
+            ) : (
+              <ul className="lista-vacunas" style={{ marginTop: 0 }}>
+                {perfilesCompartidos.map((perfil) => (
+                  <li key={perfil._id} className="vacuna-item">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 12,
+                      }}
+                    >
+                      <div>
+                        <h3 style={{ marginBottom: 6 }}>
+                          {perfil.nombre} {perfil.apellido ? perfil.apellido : ""}
+                        </h3>
+
+                        <p style={{ margin: 0, color: "#888", fontSize: "13px" }}>
+                          Compartido por: {nombreDeQuienComparte(perfil)}
+                        </p>
+                      </div>
+
+                      <div
+                        className="btns"
+                        style={{ display: "flex", gap: 10, alignItems: "center" }}
+                      >
+                        <button
+                          type="button"
+                          className="btn-editar"
+                          onClick={() => navegar("/mis-vacunas")}
+                          title="Ver vacunas (elegís el perfil desde el select)"
+                        >
+                          Ver vacunas
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn-editar"
+                          onClick={() => navegar(`/perfiles/${perfil._id}`)}
+                        >
+                          Ver
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
         )}
 
         <div style={{ marginTop: 18 }}>
-          <button className="boton" onClick={() => navigate(-1)}>
+          <button className="boton" onClick={() => navegar(-1)}>
             Volver
           </button>
         </div>
